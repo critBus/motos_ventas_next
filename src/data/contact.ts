@@ -1,0 +1,2 @@
+export const CONTACT_PHONE_NUMBER = "(123) 456-7890";
+export const CONTACT_PHONE_NUMBER_LINK = "tel:+1234567890";
