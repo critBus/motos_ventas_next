@@ -14,7 +14,8 @@ import Link from "next/link";
  */
 
 // Usamos la ruta estática para la imagen (asumiendo que está en /public/images/)
-const IMAGE_SRC = "/images/motorcycleheromovile.jpg";
+const IMAGE_MOVILE_SRC = "/images/motorcycleheromovile.jpg";
+const IMAGE_SRC = "/images/motorcycle-hero-girada.jpg";
 
 const HeroSection = () => {
   return (
@@ -22,17 +23,27 @@ const HeroSection = () => {
       {/* Background Image and Overlays */}
       <div className="absolute inset-0">
         {/*
-          Usamos `next/image` con `fill` para obtener un comportamiento óptimo
-          y poder controlar `object-position` responsivamente.
-          - Por defecto (móvil) situamos el enfoque en 50% 35% (ajústalo si hace falta)
-          - En pantallas sm+ usamos `object-center` para centrar la imagen
+          Renderizamos dos imágenes superpuestas con `fill`.
+          - La imagen móvil (IMAGE_MOVILE_SRC) se muestra en pantallas pequeñas (block, ocultada en sm+)
+          - La imagen de escritorio (IMAGE_SRC) se oculta en móviles y se muestra en sm+
+          Esto permite controlar el `object-position` y el recorte por tamaño de pantalla.
         */}
+        {/* Mobile image: visible on small screens only */}
+        <Image
+          src={IMAGE_MOVILE_SRC}
+          alt="Motorcycle on a dark road (mobile)"
+          fill
+          priority
+          className="object-cover object-[50%_35%] sm:hidden"
+        />
+
+        {/* Desktop image: hidden on mobile, visible on sm+ */}
         <Image
           src={IMAGE_SRC}
           alt="Motorcycle on a dark road"
           fill
           priority
-          className="object-cover object-[50%_35%] sm:object-center"
+          className="hidden sm:block object-cover sm:object-center"
         />
         {/* Gradient Overlay for the background */}
         <div className="absolute inset-0 bg-linear-to-r from-black via-black/80 to-transparent"></div>
