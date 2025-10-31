@@ -1,4 +1,5 @@
 import React from "react";
+// import Image from 'next/image'; // Se ha eliminado la importación de next/image debido a errores de resolución
 import { Gauge, ArrowRight } from "lucide-react";
 
 /**
@@ -6,22 +7,28 @@ import { Gauge, ArrowRight } from "lucide-react";
  * This component features a full-screen background image,
  * a dark overlay for text contrast, and key call-to-action buttons.
  *
- * Assumes lucide-react and Tailwind CSS are configured in the Next.js project.
+ * NOTA IMPORTANTE: En un proyecto Next.js real, se DEBE usar 'next/image'.
+ * Para que este componente compile en este entorno, usamos la etiqueta <img>.
+ * La ruta de la imagen estática ahora es una variable.
  */
+
+// Usamos la ruta estática para la imagen (asumiendo que está en /public/images/)
+const IMAGE_SRC = "/images/motorcycle-hero.jpg";
+
 const HeroSection = () => {
   return (
     <div className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image and Overlays */}
       <div className="absolute inset-0">
         {/*
-          NOTE: In a full Next.js project, you should use the <Image> component
-          for optimized image loading. Using a standard <img> tag here for a single file component.
+          CORRECCIÓN DEL ERROR: Reemplazamos <Image> de Next.js por un <img> estándar.
+          Los estilos de fill y object-fit se logran con clases de Tailwind CSS.
         */}
         <img
-          src="https://images.unsplash.com/photo-1558981033-0c0d0b7ac637?w=1920&q=80"
+          src={IMAGE_SRC} // Ruta relativa desde la carpeta 'public'
           alt="Motorcycle on a dark road"
-          className="w-full h-full object-cover"
-          loading="lazy"
+          className="w-full h-full object-cover" // Asegura que la imagen llene y cubra el contenedor
+          // Las propiedades 'fill' y 'priority' de next/image se simulan con estilos y el orden de carga.
         />
         {/* Gradient Overlay for the background */}
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent"></div>
@@ -59,7 +66,6 @@ const HeroSection = () => {
           <div className="flex flex-col sm:flex-row gap-4">
             {/* Primary Button */}
             <a href="/bikes" data-discover="true">
-              {/* Note: The original used a <button> inside an <a>, which is valid but less common. Using a stylized <a> for navigation. */}
               <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow hover:bg-primary/90 h-9 bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold text-lg px-8 py-6 group">
                 Browse Motorcycles
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -76,10 +82,9 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Scroll Indicator (Styling adjusted for static React) */}
+      {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
         <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-          {/* Simple scroll dot, could be animated with CSS keyframes */}
           <div className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-2 animate-bounce"></div>
         </div>
       </div>
