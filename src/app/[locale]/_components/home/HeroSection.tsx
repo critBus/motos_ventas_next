@@ -1,5 +1,5 @@
 import React from "react";
-// import Image from 'next/image'; // Se ha eliminado la importación de next/image debido a errores de resolución
+import Image from "next/image";
 import { Gauge, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
@@ -14,7 +14,7 @@ import Link from "next/link";
  */
 
 // Usamos la ruta estática para la imagen (asumiendo que está en /public/images/)
-const IMAGE_SRC = "/images/motorcycle-hero.jpg";
+const IMAGE_SRC = "/images/motorcycleheromovile.jpg";
 
 const HeroSection = () => {
   return (
@@ -22,17 +22,20 @@ const HeroSection = () => {
       {/* Background Image and Overlays */}
       <div className="absolute inset-0">
         {/*
-          CORRECCIÓN DEL ERROR: Reemplazamos <Image> de Next.js por un <img> estándar.
-          Los estilos de fill y object-fit se logran con clases de Tailwind CSS.
+          Usamos `next/image` con `fill` para obtener un comportamiento óptimo
+          y poder controlar `object-position` responsivamente.
+          - Por defecto (móvil) situamos el enfoque en 50% 35% (ajústalo si hace falta)
+          - En pantallas sm+ usamos `object-center` para centrar la imagen
         */}
-        <img
-          src={IMAGE_SRC} // Ruta relativa desde la carpeta 'public'
+        <Image
+          src={IMAGE_SRC}
           alt="Motorcycle on a dark road"
-          className="w-full h-full object-cover" // Asegura que la imagen llene y cubra el contenedor
-          // Las propiedades 'fill' y 'priority' de next/image se simulan con estilos y el orden de carga.
+          fill
+          priority
+          className="object-cover object-[50%_35%] sm:object-center"
         />
         {/* Gradient Overlay for the background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent"></div>
+        <div className="absolute inset-0 bg-linear-to-r from-black via-black/80 to-transparent"></div>
         {/* Darkening Overlay */}
         <div className="absolute inset-0 bg-black/40"></div>
       </div>
@@ -51,7 +54,7 @@ const HeroSection = () => {
           {/* Main Headline */}
           <h1 className="text-5xl md:text-7xl font-black text-white mb-6 leading-tight">
             RIDE THE
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">
+            <span className="block text-transparent bg-clip-text bg-linear-to-r from-orange-500 to-red-600">
               FREEDOM
             </span>
           </h1>
@@ -72,7 +75,7 @@ const HeroSection = () => {
               className="sm:flex sm:flex-row sm:justify-center 
               sm:items-center"
             >
-              <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow hover:bg-primary/90 h-9 bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold text-lg px-8 py-6 group">
+              <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow hover:bg-primary/90 h-9 bg-linear-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold text-lg px-8 py-6 group">
                 Browse Motorcycles
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
