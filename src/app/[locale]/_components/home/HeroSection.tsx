@@ -1,6 +1,7 @@
 import React from "react";
 // import Image from 'next/image'; // Se ha eliminado la importación de next/image debido a errores de resolución
 import { Gauge, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 /**
  * Hero section component for a Premium Motorcycles website.
@@ -65,19 +66,24 @@ const HeroSection = () => {
           {/* Call-to-Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4">
             {/* Primary Button */}
-            <a href="/bikes" data-discover="true">
+            <Link
+              href="/bikes"
+              data-discover="true"
+              className="sm:flex sm:flex-row sm:justify-center 
+              sm:items-center"
+            >
               <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow hover:bg-primary/90 h-9 bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold text-lg px-8 py-6 group">
                 Browse Motorcycles
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
-            </a>
+            </Link>
 
             {/* Secondary Button */}
-            <a href="/contact" data-discover="true">
+            <Link href="/contact" data-discover="true">
               <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm h-9 border-2 border-white text-white hover:bg-white hover:text-black font-bold text-lg px-8 py-6">
                 Contact Us
               </button>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
