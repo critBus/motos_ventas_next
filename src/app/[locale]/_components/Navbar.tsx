@@ -6,13 +6,16 @@ import {
   CONTACT_PHONE_NUMBER,
   CONTACT_PHONE_NUMBER_LINK,
 } from "@/data/contact";
-const links = [
-  { path: "/", label: "HOME" },
-  { path: "/motorcycles", label: "MOTORCYCLES" },
-  { path: "/contact", label: "CONTACT" },
-];
+import { useTranslations } from "next-intl";
+
 export const Navbar = () => {
   const pathname = usePathname();
+  const t = useTranslations("Nadvar");
+  const links = [
+    { path: "/", label: t("menu.home") },
+    { path: "/motorcycles", label: t("menu.motorcycles") },
+    { path: "/contact", label: t("menu.contact") },
+  ];
   return (
     <nav className="fixed top-0 w-full bg-black/95 backdrop-blur-md z-50 border-b border-zinc-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
