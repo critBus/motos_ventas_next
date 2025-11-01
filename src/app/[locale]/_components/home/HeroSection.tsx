@@ -86,7 +86,15 @@ const HeroSection = () => {
               className="sm:flex sm:flex-row sm:justify-center 
               sm:items-center"
             >
-              <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow hover:bg-primary/90 h-9 bg-linear-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold text-lg px-8 py-6 group">
+              <button
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow 
+              hover:bg-primary/90 h-9 bg-linear-to-r
+               from-orange-500 to-red-600
+                hover:from-orange-600 hover:to-red-700 text-white 
+                font-bold text-lg px-8 py-6 group
+                hover:cursor-pointer
+                "
+              >
                 {t("browse_motorcycles")}
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
@@ -94,7 +102,15 @@ const HeroSection = () => {
 
             {/* Secondary Button */}
             <Link href="/contact" data-discover="true">
-              <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm h-9 border-2 border-white text-white hover:bg-white hover:text-black font-bold text-lg px-8 py-6">
+              <button
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap 
+              rounded-md transition-colors focus-visible:outline-none 
+              focus-visible:ring-1 focus-visible:ring-ring 
+              disabled:pointer-events-none disabled:opacity-50 
+              bg-background shadow-sm h-9 border-2 border-white 
+              text-white hover:bg-white hover:text-black font-bold 
+              text-lg px-8 py-6 hover:cursor-pointer"
+              >
                 {t("contact_us")}
               </button>
             </Link>

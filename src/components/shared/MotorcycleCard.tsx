@@ -4,12 +4,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import type { Motorcycle } from "@/types/motorcycles.types";
+import { useTranslations } from "next-intl";
 
 interface MotorcycleCardProps {
   motorcycle: Motorcycle;
 }
 
 export default function MotorcycleCard({ motorcycle }: MotorcycleCardProps) {
+  const t = useTranslations("MotorcycleCard");
   const isUsed = motorcycle.condition === "used";
   const formattedPrice = parseFloat(motorcycle.price) || 0;
 
@@ -40,7 +42,7 @@ export default function MotorcycleCard({ motorcycle }: MotorcycleCardProps) {
                   : "bg-gradient-to-r from-orange-500 to-red-600 text-white"
               }`}
             >
-              {isUsed ? "used" : "new"}
+              {isUsed ? t("used") : t("new")}
             </span>
           </div>
         </div>
@@ -95,19 +97,33 @@ export default function MotorcycleCard({ motorcycle }: MotorcycleCardProps) {
             </div>
           </div>
           <p className="text-zinc-400 text-sm mb-4 line-clamp-2">
-            {motorcycle.description || "No description available."}
+            {motorcycle.description || t("no_description_available")}
           </p>
           <div className="flex items-center justify-between pt-4 border-t border-zinc-700">
             <div>
-              <p className="text-zinc-500 text-xs uppercase">Price</p>
+              <p className="text-zinc-500 text-xs uppercase">{t("price")}</p>
               <p className="text-2xl font-black text-white">
                 {formattedPrice > 0
                   ? `$${formattedPrice.toLocaleString()}`
-                  : "Contact"}
+                  : t("contact")}
               </p>
             </div>
-            <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary-foreground shadow h-9 px-4 py-2 bg-orange-500 hover:bg-orange-600 group-hover:bg-gradient-to-r group-hover:from-orange-500 group-hover:to-red-600">
-              View Details
+            <button
+              className="inline-flex items-center 
+            justify-center gap-2 whitespace-nowrap rounded-md 
+            text-sm font-medium transition-colors 
+            focus-visible:outline-none focus-visible:ring-1 
+            focus-visible:ring-ring 
+            disabled:pointer-events-none disabled:opacity-50 
+            text-primary-foreground shadow h-9 px-4 py-2 
+            bg-orange-500 hover:bg-orange-600 
+            group-hover:bg-gradient-to-r 
+            group-hover:from-orange-500 
+            group-hover:to-red-600
+            hover:cursor-pointer
+            "
+            >
+              {t("view_details")}
               <ArrowRight className="ml-2 w-4 h-4" />
             </button>
           </div>
