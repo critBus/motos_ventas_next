@@ -1,0 +1,51 @@
+// src/types/motorcycles.types.ts
+
+export interface MotorcycleImage {
+  id: number;
+  image: string;
+}
+
+export interface Motorcycle {
+  id: number;
+  images: MotorcycleImage[];
+  created: string; // ISO 8601 date string
+  modified: string;
+  name: string;
+  price: string; // Puede ser un número, pero el ejemplo usa string ("-0.1")
+  description: string;
+  status: "draft" | "active" | "inactive"; // Ajusta según tus valores reales
+  published_at: string | null;
+  expires_at: string | null;
+  never_expires: boolean;
+  brand: string;
+  model_code: string;
+  year: number;
+  condition: "new" | "used";
+  vehicle_type: "motorcycle" | "scooter" | "moped"; // Ajusta según tu API
+  fuel_type: "gas" | "electric" | "hybrid";
+  number_of_wheels: number;
+  has_sidecar: boolean;
+  battery_capacity_kwh: string; // Puede estar vacío o ser un número como string
+  range_km: number;
+  charging_time_hours: string; // Ej: "-.93"
+  engine_displacement_cc: number;
+  motor_power_hp: string; // Ej: "7055.2"
+  top_speed_kmh: number;
+  weight_kg: string; // Ej: "-"
+  seat_height_mm: number;
+  fuel_capacity_l: string; // Ej: "81"
+  mileage_km: number;
+  previous_owners: number;
+  color: string;
+  vin: string;
+  certified: boolean;
+  is_visible_in_home: boolean;
+  visibility_index_in_home: number;
+}
+
+export interface MotorcyclesResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Motorcycle[];
+}
