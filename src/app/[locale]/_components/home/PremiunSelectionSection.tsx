@@ -6,8 +6,10 @@ import MotorcycleCard from "@/components/shared/MotorcycleCard";
 import type { Motorcycle } from "@/types/motorcycles.types";
 import ApiService from "@/service/ApiService";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const PremiumSelectionSection = () => {
+  const t = useTranslations("Home.PremiunSelectionSection");
   const [motorcycles, setMotorcycles] = useState<Motorcycle[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -31,7 +33,7 @@ const PremiumSelectionSection = () => {
     return (
       <section className="py-20 bg-zinc-900">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-white">Loading premium selection...</p>
+          <p className="text-white">{t("loading")}</p>
         </div>
       </section>
     );
@@ -52,14 +54,13 @@ const PremiumSelectionSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <span className="text-orange-500 font-bold uppercase tracking-wider text-sm">
-            Featured Collection
+            {t("featured_collection")}
           </span>
           <h2 className="text-4xl md:text-5xl font-black text-white mt-4 mb-4">
-            PREMIUM SELECTION
+            {t("premium_selection")}
           </h2>
           <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
-            Handpicked motorcycles that represent the pinnacle of performance
-            and design
+            {t("description")}
           </p>
         </div>
 
@@ -74,7 +75,7 @@ const PremiumSelectionSection = () => {
             href="/bikes"
             className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm h-9 border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white font-bold px-8 py-6 text-lg group"
           >
-            View All Motorcycles
+            {t("view_all_motorcycles")}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

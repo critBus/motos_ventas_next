@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { Gauge, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 /**
  * Hero section component for a Premium Motorcycles website.
@@ -18,6 +19,7 @@ const IMAGE_MOVILE_SRC = "/images/motorcycleheromovile.jpg";
 const IMAGE_SRC = "/images/motorcycle-hero-girada.jpg";
 
 const HeroSection = () => {
+  const t = useTranslations("Home.HeroSection");
   return (
     <div className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image and Overlays */}
@@ -58,23 +60,21 @@ const HeroSection = () => {
           <div className="flex items-center gap-2 mb-6">
             <Gauge className="w-6 h-6 text-orange-500" />
             <span className="text-orange-500 font-bold uppercase tracking-wider text-sm">
-              Premium Motorcycles
+              {t("premium_motorcycles")}
             </span>
           </div>
 
           {/* Main Headline */}
           <h1 className="text-5xl md:text-7xl font-black text-white mb-6 leading-tight">
-            RIDE THE
+            {t("ride_the")}
             <span className="block text-transparent bg-clip-text bg-linear-to-r from-orange-500 to-red-600">
-              FREEDOM
+              {t("freedom")}
             </span>
           </h1>
 
           {/* Subtext */}
           <p className="text-xl text-zinc-300 mb-8 leading-relaxed">
-            Discover your perfect ride from our curated collection of
-            high-performance motorcycles. Experience the thrill, embrace the
-            journey.
+            {t("description")}
           </p>
 
           {/* Call-to-Action Buttons */}
@@ -87,7 +87,7 @@ const HeroSection = () => {
               sm:items-center"
             >
               <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow hover:bg-primary/90 h-9 bg-linear-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold text-lg px-8 py-6 group">
-                Browse Motorcycles
+                {t("browse_motorcycles")}
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
             </Link>
@@ -95,7 +95,7 @@ const HeroSection = () => {
             {/* Secondary Button */}
             <Link href="/contact" data-discover="true">
               <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm h-9 border-2 border-white text-white hover:bg-white hover:text-black font-bold text-lg px-8 py-6">
-                Contact Us
+                {t("contact_us")}
               </button>
             </Link>
           </div>
