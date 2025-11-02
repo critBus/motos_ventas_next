@@ -22,14 +22,14 @@
       "premium_selection": "SELECCIÓN PREMIUM",
       "description": "Motocicletas seleccionadas a mano que representan la cima en rendimiento y diseño",
       "view_all_motorcycles": "Ver Todas las Motocicletas"
-    },
-    "MotorcycleCard": {
-      "used": "usado",
-      "new": "nuevo",
-      "no_description_available": "Descripción no disponible.",
-      "price": "Precio",
-      "contact": "Contacto",
-      "view_details": "Ver detalles"
     }
+  },
+  "MotorcycleCard": {
+    "used": "usado",
+    "new": "nuevo",
+    "no_description_available": "Descripción no disponible.",
+    "price": "Precio",
+    "contact": "Contacto",
+    "view_details": "Ver detalles"
   }
 }
