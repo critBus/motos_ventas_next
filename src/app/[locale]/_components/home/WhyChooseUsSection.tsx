@@ -2,12 +2,14 @@
 import Link from "next/link"; // 👈 Importamos el componente Link
 
 // Datos de ejemplo. Incluye el nuevo 'href' para la navegación.
+// ¡Este arreglo reemplaza al anterior en tu WhyChooseUsSection.tsx!
+
 const features = [
   {
-    title: "Quality Guarantee",
+    title: "Fuel-Powered Bikes",
     description:
-      "Every motorcycle is thoroughly inspected and certified for your peace of mind",
-    href: "/certificaciones", // 👈 Dirección de navegación 1
+      "Explore our wide range of classic motorcycles with powerful internal combustion engines. Check engine displacement and fuel capacity.",
+    href: "/inventory/fuel",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -19,40 +21,20 @@ const features = [
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="lucide lucide-shield w-8 h-8 text-white"
+        className="lucide lucide-fuel w-8 h-8 text-white"
       >
-        <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
+        <line x1="3" x2="15" y1="22" y2="22" />
+        <line x1="4" x2="14" y1="9" y2="9" />
+        <path d="M14 22V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v18" />
+        <path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V9.83a2 2 0 0 0-.58-1.42L18 5" />
       </svg>
     ),
   },
   {
-    title: "Premium Selection",
+    title: "Electric Motorbikes",
     description:
-      "Curated collection of top-tier motorcycles from leading manufacturers",
-    href: "/inventario", // 👈 Dirección de navegación 2
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="lucide lucide-award w-8 h-8 text-white"
-      >
-        <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path>
-        <circle cx="12" cy="8" r="6"></circle>
-      </svg>
-    ),
-  },
-  {
-    title: "Expert Service",
-    description:
-      "Professional maintenance and support from certified technicians",
-    href: "/servicios", // 👈 Dirección de navegación 3
+      "Discover the future of riding with silent, high-performance electric motorcycles. View battery capacity and range (km).",
+    href: "/inventory/electric",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -66,14 +48,15 @@ const features = [
         strokeLinejoin="round"
         className="lucide lucide-zap w-8 h-8 text-white"
       >
-        <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path>
+        <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
       </svg>
     ),
   },
   {
-    title: "Community",
-    description: "Join a passionate community of riders and enthusiasts",
-    href: "/comunidad", // 👈 Dirección de navegación 4
+    title: "Brand New Models",
+    description:
+      "The latest models with zero mileage. Our collection features only 'new' condition bikes from top brands. Ready to ride.",
+    href: "/inventory/new",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -85,12 +68,35 @@ const features = [
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="lucide lucide-users w-8 h-8 text-white"
+        className="lucide lucide-package w-8 h-8 text-white"
       >
-        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-        <circle cx="9" cy="7" r="4"></circle>
-        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        <path d="m7.5 4.27 9 5.15" />
+        <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+        <path d="m3.3 7 8.7 5 8.7-5" />
+        <path d="M12 22V12" />
+      </svg>
+    ),
+  },
+  {
+    title: "Certified & Inspected",
+    description:
+      "Guaranteed quality used bikes that have been 'certified' by our technicians. Check our inspection process and warranty terms.",
+    href: "/inventory/certified",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="lucide lucide-shield-check w-8 h-8 text-white"
+      >
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+        <path d="m9 12 2 2 4-4" />
       </svg>
     ),
   },
