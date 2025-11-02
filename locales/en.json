@@ -70,5 +70,12 @@
     "linkContact": "Contact",
     "contactTitle": "Contact",
     "copyright": "© 2025 MotoRiders. All rights reserved."
+  },
+  "Motorcycles": {
+    "TagBrowseMotorcyclesSection": {
+      "browse": "BROWSE",
+      "motorcycles": "MOTORCYCLES",
+      "description": "Explore our complete collection of premium motorcycles"
+    }
   }
 }
