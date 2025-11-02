@@ -76,6 +76,10 @@
       "browse": "BROWSE",
       "motorcycles": "MOTORCYCLES",
       "description": "Explore our complete collection of premium motorcycles"
+    },
+    "SearchSection": {
+      "searchPlaceholder": "Search by brand, model...",
+      "results": "{count, plural, one {motorcycle found} other {motorcycles found}}"
     }
   }
 }

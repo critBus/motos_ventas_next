@@ -1,7 +1,14 @@
+// SearchSection.tsx
+
 "use client";
 import React, { useState } from "react";
+// 1. Importar useTranslations
+import { useTranslations } from "next-intl";
 
 const SearchSection = () => {
+  // Inicializar traducciones
+  const t = useTranslations("Motorcycles.SearchSection");
+
   // 2. Define state for the search query
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -11,6 +18,11 @@ const SearchSection = () => {
   }) => {
     setSearchQuery(event.target.value);
   };
+
+  // Se asume que el número de resultados (6) es una variable que se pasa por props o se calcula dentro del componente.
+  // Para este ejemplo, mantendré el 6 estático como estaba, pero se recomienda reemplazarlo con una prop.
+  const resultCount = 6;
+
   return (
     <div className="bg-black border-b border-zinc-800 sticky top-20 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -34,16 +46,16 @@ const SearchSection = () => {
             <input
               type="text"
               className="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm pl-10 bg-zinc-900 border-zinc-800 text-white placeholder:text-zinc-500 focus:border-orange-500"
-              placeholder="Search by brand, model..."
-              // 4. Bind the state variable
+              // Usar 't' para el placeholder
+              placeholder={t("searchPlaceholder")}
               value={searchQuery}
-              // 5. Bind the change handler
               onChange={handleSearchChange}
             />
           </div>
           <div className="text-zinc-400">
-            <span className="font-semibold text-white">6</span> motorcycles
-            found
+            {/* Usar 't' para el texto de resultados. Se usa un plural. */}
+            <span className="font-semibold text-white">{resultCount}</span>{" "}
+            {t("results", { count: resultCount })}
           </div>
         </div>
       </div>

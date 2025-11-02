@@ -76,6 +76,10 @@
       "browse": "EXPLORA",
       "motorcycles": "MOTOCICLETAS",
       "description": "Descubre nuestra colección completa de motocicletas premium"
+    },
+    "SearchSection": {
+      "searchPlaceholder": "Buscar por marca, modelo...",
+      "results": "{count, plural, one {motocicleta encontrada} other {motocicletas encontradas}}"
     }
   }
 }
