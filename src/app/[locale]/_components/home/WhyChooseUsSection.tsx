@@ -1,12 +1,13 @@
 // components/WhyChooseUsSection.tsx
-// ¡Funcional y compatible con Next.js 15 (React 19)!
+import Link from "next/link"; // 👈 Importamos el componente Link
 
-// Datos de ejemplo. Puedes moverlos a un archivo de datos o props si lo prefieres.
+// Datos de ejemplo. Incluye el nuevo 'href' para la navegación.
 const features = [
   {
-    title: "Quality Guarantee", // Títulos en inglés para coincidir con la implementación de abajo
+    title: "Quality Guarantee",
     description:
       "Every motorcycle is thoroughly inspected and certified for your peace of mind",
+    href: "/certificaciones", // 👈 Dirección de navegación 1
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -15,7 +16,7 @@ const features = [
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2" // Corregido a camelCase
+        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
         className="lucide lucide-shield w-8 h-8 text-white"
@@ -28,6 +29,7 @@ const features = [
     title: "Premium Selection",
     description:
       "Curated collection of top-tier motorcycles from leading manufacturers",
+    href: "/inventario", // 👈 Dirección de navegación 2
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -50,6 +52,7 @@ const features = [
     title: "Expert Service",
     description:
       "Professional maintenance and support from certified technicians",
+    href: "/servicios", // 👈 Dirección de navegación 3
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -70,6 +73,7 @@ const features = [
   {
     title: "Community",
     description: "Join a passionate community of riders and enthusiasts",
+    href: "/comunidad", // 👈 Dirección de navegación 4
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -101,11 +105,9 @@ export default function WhyChooseUsSection() {
   return (
     <section className="py-20 bg-black relative overflow-hidden">
       <div className="absolute inset-0 opacity-5">
-        {/* USANDO OBJETO DE ESTILO EN LUGAR DE STRING PARA COMPATIBILIDAD CON REACT */}
         <div className="absolute inset-0" style={backgroundStyle}></div>
       </div>
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* ELIMINADO EL STYLE INNECESARIO (opacity/transform) */}
         <div className="text-center mb-16">
           <span className="text-orange-500 font-bold uppercase tracking-wider text-sm">
             Why Choose Us
@@ -116,11 +118,14 @@ export default function WhyChooseUsSection() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature) => (
-            /* ELIMINADO EL STYLE INNECESARIO (opacity/transform) */
-            <div key={feature.title} className="group">
+            // 👈 Usamos <Link> para envolver toda la tarjeta
+            <Link
+              key={feature.title}
+              href={feature.href}
+              className="group block h-full" // Aplicamos clases de estilo a Link
+            >
               <div className="relative p-8 bg-zinc-900 rounded-xl border border-zinc-800 hover:border-orange-500 transition-all duration-500 hover:shadow-lg hover:shadow-orange-500/20 h-full">
                 <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
-                  {/* SE MUEVE EL SVG AL OBJETO 'features' PARA REUTILIZACIÓN Y LIMPIEZA */}
                   {feature.icon}
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3 group-hover:text-orange-500 transition-colors">
@@ -130,7 +135,7 @@ export default function WhyChooseUsSection() {
                   {feature.description}
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
