@@ -1,0 +1,35 @@
+{
+  "Nadvar": {
+    "menu": {
+      "home": "Inicio",
+      "motorcycles": "Motocicletas",
+      "contact": "Contacto"
+    },
+    "get_in_touch": "Ponte en contacto"
+  },
+  "Home": {
+    "HeroSection": {
+      "premium_motorcycles": "Motos Premium",
+      "ride_the": "CONTROLA TU",
+      "freedom": "LIBERTAD",
+      "description": "Descubre tu viaje perfecto en nuestra colección seleccionada de motocicletas de alto rendimiento. Experimenta la emoción, abraza el viaje.",
+      "browse_motorcycles": "Ver Motos",
+      "contact_us": "Contáctanos"
+    },
+    "PremiunSelectionSection": {
+      "loading": "Cargando selección premium...",
+      "featured_collection": "Colección Destacada",
+      "premium_selection": "SELECCIÓN PREMIUM",
+      "description": "Motocicletas seleccionadas a mano que representan la cima en rendimiento y diseño",
+      "view_all_motorcycles": "Ver Todas las Motocicletas"
+    },
+    "MotorcycleCard": {
+      "used": "usado",
+      "new": "nuevo",
+      "no_description_available": "Descripción no disponible.",
+      "price": "Precio",
+      "contact": "Contacto",
+      "view_details": "Ver detalles"
+    }
+  }
+}

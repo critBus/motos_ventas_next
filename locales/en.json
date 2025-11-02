@@ -1,0 +1,35 @@
+{
+  "Nadvar": {
+    "menu": {
+      "home": "Home",
+      "motorcycles": "Motorcycles",
+      "contact": "Contact"
+    },
+    "get_in_touch": "Get in Touch"
+  },
+  "Home": {
+    "HeroSection": {
+      "premium_motorcycles": "Premium Motorcycles",
+      "ride_the": "RIDE THE",
+      "freedom": "FREEDOM",
+      "description": "Discover your perfect ride from our curated collection of high-performance motorcycles. Experience the thrill, embrace the journey.",
+      "browse_motorcycles": "Browse Motorcycles",
+      "contact_us": "Contact Us"
+    },
+    "PremiunSelectionSection": {
+      "loading": "Loading premium selection...",
+      "featured_collection": "Featured Collection",
+      "premium_selection": "PREMIUM SELECTION",
+      "description": "Handpicked motorcycles that represent the pinnacle of performance and design",
+      "view_all_motorcycles": "View All Motorcycles"
+    }
+  },
+  "MotorcycleCard": {
+    "used": "used",
+    "new": "new",
+    "no_description_available": "No description available.",
+    "price": "Price",
+    "contact": "Contact",
+    "view_details": "View Details"
+  }
+}
