@@ -23,13 +23,52 @@
       "description": "Motocicletas seleccionadas a mano que representan la cima en rendimiento y diseño",
       "view_all_motorcycles": "Ver Todas las Motocicletas"
     },
-    "MotorcycleCard": {
-      "used": "usado",
-      "new": "nuevo",
-      "no_description_available": "Descripción no disponible.",
-      "price": "Precio",
-      "contact": "Contacto",
-      "view_details": "Ver detalles"
+    "WhyChooseUsSection": {
+      "tagline": "Por Qué Elegirnos",
+      "heading": "LA DIFERENCIA MOTORIDERS",
+      "features": {
+        "fuel": {
+          "title": "Motos a Combustible",
+          "description": "Explora nuestra amplia gama de motocicletas clásicas con potentes motores de combustión interna. Consulta cilindrada y capacidad de combustible."
+        },
+        "electric": {
+          "title": "Motos Eléctricas",
+          "description": "Descubre el futuro de la conducción con motocicletas eléctricas silenciosas y de alto rendimiento. Consulta capacidad de batería y autonomía (km)."
+        },
+        "new": {
+          "title": "Modelos Nuevos",
+          "description": "Los modelos más recientes con cero kilometraje. Nuestra colección solo incluye motos 'nuevas' de las mejores marcas. Listas para rodar."
+        },
+        "certified": {
+          "title": "Certificadas e Inspeccionadas",
+          "description": "Motos usadas de calidad garantizada que han sido 'certificadas' por nuestros técnicos. Consulta nuestro proceso de inspección y términos de garantía."
+        }
+      }
+    },
+    "ReadyToStartSection": {
+      "title": "¿LISTO PARA INICIAR",
+      "subtitle": "TU VIAJE?",
+      "description": "Encuentra hoy tu motocicleta perfecta y experimenta la libertad de la carretera abierta. Nuestro equipo está listo para ayudarte a tomar la decisión correcta.",
+      "exploreButton": "Explorar Motocicletas",
+      "contactButton": "Empezar Ahora",
+      "backgroundImageAlt": "Viaje - Fondo de motocicleta"
     }
+  },
+  "MotorcycleCard": {
+    "used": "usado",
+    "new": "nuevo",
+    "no_description_available": "Descripción no disponible.",
+    "price": "Precio",
+    "contact": "Contacto",
+    "view_details": "Ver detalles"
+  },
+  "Footer": {
+    "tagline": "Tu destino principal para motocicletas de alto rendimiento. Experimenta la emoción de conducir con nuestra colección seleccionada.",
+    "quickLinksTitle": "Enlaces Rápidos",
+    "linkHome": "Inicio",
+    "linkMotorcycles": "Motocicletas",
+    "linkContact": "Contacto",
+    "contactTitle": "Contacto",
+    "copyright": "© 2025 MotoRiders. Todos los derechos reservados."
   }
 }
