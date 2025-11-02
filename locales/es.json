@@ -44,6 +44,14 @@
           "description": "Motos usadas de calidad garantizada que han sido 'certificadas' por nuestros técnicos. Consulta nuestro proceso de inspección y términos de garantía."
         }
       }
+    },
+    "ReadyToStartSection": {
+      "title": "¿LISTO PARA INICIAR",
+      "subtitle": "TU VIAJE?",
+      "description": "Encuentra hoy tu motocicleta perfecta y experimenta la libertad de la carretera abierta. Nuestro equipo está listo para ayudarte a tomar la decisión correcta.",
+      "exploreButton": "Explorar Motocicletas",
+      "contactButton": "Empezar Ahora",
+      "backgroundImageAlt": "Viaje - Fondo de motocicleta"
     }
   },
   "MotorcycleCard": {

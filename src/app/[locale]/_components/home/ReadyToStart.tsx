@@ -2,20 +2,25 @@ import React from "react";
 // Importa el componente Image de Next.js para la optimización de imágenes.
 import Image from "next/image";
 import Link from "next/link";
+// IMPORTANTE: Importa useTranslations de next-intl
+import { useTranslations } from "next-intl";
 
 // Variable para la ruta de la imagen estática.
-// Asume que la imagen está en /public/assets/images/motorcycle-bg.jpg
-// Puedes ajustar esta ruta fácilmente.
+// Asume que la imagen está en /public/images/moto-ready-start.jpeg
 const BACKGROUND_IMAGE_PATH = "/images/moto-ready-start.jpeg";
 
 const ReadyToStart = () => {
+  // Inicializa la función de traducción con el namespace correcto
+  const t = useTranslations("Home.ReadyToStartSection");
+
   return (
     <section className="relative py-32 overflow-hidden">
       <div className="absolute inset-0">
         {/* Componente Image de Next.js para la imagen de fondo */}
         <Image
           src={BACKGROUND_IMAGE_PATH}
-          alt="Ride - Motorcycle background"
+          // Usa la traducción para el alt de la imagen
+          alt={t("backgroundImageAlt")}
           // 'fill' hace que la imagen se expanda para llenar el contenedor padre
           fill
           // 'object-cover' asegura que la imagen cubra todo el contenedor sin distorsionarse
@@ -29,18 +34,21 @@ const ReadyToStart = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl" style={{ opacity: 1, transform: "none" }}>
           <h2 className="text-5xl md:text-6xl font-black text-white mb-6 leading-tight">
-            READY TO START
+            {/* Usa la traducción para el título principal */}
+            {t("title")}
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">
-              YOUR JOURNEY?
+              {/* Usa la traducción para el subtítulo */}
+              {t("subtitle")}
             </span>
           </h2>
           <p className="text-xl text-zinc-300 mb-8 leading-relaxed">
-            Find your perfect motorcycle today and experience the freedom of the
-            open road. Our team is ready to help you make the right choice.
+            {/* Usa la traducción para la descripción */}
+            {t("description")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
+            {/* Link para Explorar Motocicletas - Usa ruta y texto traducidos */}
             <Link
-              href="/bikes"
+              href="/bikes" // Ruta traducida (ej: /bikes o /motos)
               data-discover="true"
               className="sm:flex sm:flex-row sm:justify-center 
               sm:items-center"
@@ -60,7 +68,7 @@ const ReadyToStart = () => {
               hover:cursor-pointer
               "
               >
-                Explore Motorcycles
+                {t("exploreButton")} {/* Texto del botón traducido */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -78,7 +86,10 @@ const ReadyToStart = () => {
                 </svg>
               </button>
             </Link>
+            {/* Link para Empezar - Usa ruta y texto traducidos */}
             <Link href="/contact" data-discover="true">
+              {" "}
+              {/* Ruta traducida (ej: /contact o /contacto) */}
               <button
                 className="inline-flex items-center 
               justify-center gap-2 whitespace-nowrap rounded-md 
@@ -93,7 +104,7 @@ const ReadyToStart = () => {
               hover:cursor-pointer
               "
               >
-                Get Started
+                {t("contactButton")} {/* Texto del botón traducido */}
               </button>
             </Link>
           </div>

@@ -44,6 +44,14 @@
           "description": "Guaranteed quality used bikes that have been 'certified' by our technicians. Check our inspection process and warranty terms."
         }
       }
+    },
+    "ReadyToStartSection": {
+      "title": "READY TO START",
+      "subtitle": "YOUR JOURNEY?",
+      "description": "Find your perfect motorcycle today and experience the freedom of the open road. Our team is ready to help you make the right choice.",
+      "exploreButton": "Explore Motorcycles",
+      "contactButton": "Get Started",
+      "backgroundImageAlt": "Ride - Motorcycle background"
     }
   },
   "MotorcycleCard": {
