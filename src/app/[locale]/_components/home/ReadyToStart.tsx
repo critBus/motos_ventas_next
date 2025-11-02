@@ -39,8 +39,27 @@ const ReadyToStart = () => {
             open road. Our team is ready to help you make the right choice.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Link href="/bikes" data-discover="true">
-              <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow hover:bg-primary/90 h-9 bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold text-lg px-8 py-6 group">
+            <Link
+              href="/bikes"
+              data-discover="true"
+              className="sm:flex sm:flex-row sm:justify-center 
+              sm:items-center"
+            >
+              <button
+                className="inline-flex items-center 
+              justify-center gap-2 whitespace-nowrap rounded-md 
+              transition-colors focus-visible:outline-none 
+              focus-visible:ring-1 focus-visible:ring-ring 
+              disabled:pointer-events-none disabled:opacity-50 
+              [&amp;_svg]:pointer-events-none 
+              [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow 
+              hover:bg-primary/90 h-9 bg-gradient-to-r 
+              from-orange-500 to-red-600 
+              hover:from-orange-600 hover:to-red-700 
+              text-white font-bold text-lg px-8 py-6 group
+              hover:cursor-pointer
+              "
+              >
                 Explore Motorcycles
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +79,20 @@ const ReadyToStart = () => {
               </button>
             </Link>
             <Link href="/contact" data-discover="true">
-              <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-background shadow-sm h-9 border-2 border-white text-white hover:bg-white hover:text-black font-bold text-lg px-8 py-6">
+              <button
+                className="inline-flex items-center 
+              justify-center gap-2 whitespace-nowrap rounded-md 
+              transition-colors focus-visible:outline-none 
+              focus-visible:ring-1 focus-visible:ring-ring 
+              disabled:pointer-events-none disabled:opacity-50 
+              [&amp;_svg]:pointer-events-none 
+              [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 
+              bg-background shadow-sm h-9 border-2 
+              border-white text-white hover:bg-white 
+              hover:text-black font-bold text-lg px-8 py-6
+              hover:cursor-pointer
+              "
+              >
                 Get Started
               </button>
             </Link>
