@@ -49,7 +49,7 @@ const Footer: React.FC = () => {
               <li>
                 <Link
                   className="text-zinc-400 hover:text-orange-500 transition-colors"
-                  href="/bikes" // Link is constant
+                  href="/motorcycles" // Link is constant
                   data-discover="true"
                 >
                   {t("linkMotorcycles")} {/* Text - Internationalized */}

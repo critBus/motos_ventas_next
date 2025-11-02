@@ -81,7 +81,7 @@ const HeroSection = () => {
           <div className="flex flex-col sm:flex-row gap-4">
             {/* Primary Button */}
             <Link
-              href="/bikes"
+              href="/motorcycles"
               data-discover="true"
               className="sm:flex sm:flex-row sm:justify-center 
               sm:items-center"
