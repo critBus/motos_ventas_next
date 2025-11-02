@@ -61,5 +61,14 @@
     "price": "Price",
     "contact": "Contact",
     "view_details": "View Details"
+  },
+  "Footer": {
+    "tagline": "Your premier destination for high-performance motorcycles. Experience the thrill of the ride with our curated collection.",
+    "quickLinksTitle": "Quick Links",
+    "linkHome": "Home",
+    "linkMotorcycles": "Motorcycles",
+    "linkContact": "Contact",
+    "contactTitle": "Contact",
+    "copyright": "© 2025 MotoRiders. All rights reserved."
   }
 }

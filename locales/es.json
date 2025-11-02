@@ -61,5 +61,14 @@
     "price": "Precio",
     "contact": "Contacto",
     "view_details": "Ver detalles"
+  },
+  "Footer": {
+    "tagline": "Tu destino principal para motocicletas de alto rendimiento. Experimenta la emoción de conducir con nuestra colección seleccionada.",
+    "quickLinksTitle": "Enlaces Rápidos",
+    "linkHome": "Inicio",
+    "linkMotorcycles": "Motocicletas",
+    "linkContact": "Contacto",
+    "contactTitle": "Contacto",
+    "copyright": "© 2025 MotoRiders. Todos los derechos reservados."
   }
 }
