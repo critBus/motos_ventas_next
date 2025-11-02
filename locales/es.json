@@ -22,6 +22,36 @@
       "premium_selection": "SELECCIÓN PREMIUM",
       "description": "Motocicletas seleccionadas a mano que representan la cima en rendimiento y diseño",
       "view_all_motorcycles": "Ver Todas las Motocicletas"
+    },
+    "WhyChooseUsSection": {
+      "tagline": "Por Qué Elegirnos",
+      "heading": "LA DIFERENCIA MOTORIDERS",
+      "features": [
+        {
+          "title": "Motos a Combustible",
+          "description": "Explora nuestra amplia gama de motocicletas clásicas con potentes motores de combustión interna. Consulta cilindrada y capacidad de combustible.",
+          "href": "/inventory/fuel",
+          "iconKey": "fuel"
+        },
+        {
+          "title": "Motos Eléctricas",
+          "description": "Descubre el futuro de la conducción con motocicletas eléctricas silenciosas y de alto rendimiento. Consulta capacidad de batería y autonomía (km).",
+          "href": "/inventory/electric",
+          "iconKey": "electric"
+        },
+        {
+          "title": "Modelos Nuevos",
+          "description": "Los modelos más recientes con cero kilometraje. Nuestra colección solo incluye motos 'nuevas' de las mejores marcas. Listas para rodar.",
+          "href": "/inventory/new",
+          "iconKey": "new"
+        },
+        {
+          "title": "Certificadas e Inspeccionadas",
+          "description": "Motos usadas de calidad garantizada que han sido 'certificadas' por nuestros técnicos. Consulta nuestro proceso de inspección y términos de garantía.",
+          "href": "/inventory/certified",
+          "iconKey": "certified"
+        }
+      ]
     }
   },
   "MotorcycleCard": {

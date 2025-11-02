@@ -22,6 +22,36 @@
       "premium_selection": "PREMIUM SELECTION",
       "description": "Handpicked motorcycles that represent the pinnacle of performance and design",
       "view_all_motorcycles": "View All Motorcycles"
+    },
+    "WhyChooseUsSection": {
+      "tagline": "Why Choose Us",
+      "heading": "THE MOTORIDERS DIFFERENCE",
+      "features": [
+        {
+          "title": "Fuel-Powered Bikes",
+          "description": "Explore our wide range of classic motorcycles with powerful internal combustion engines. Check engine displacement and fuel capacity.",
+          "href": "/inventory/fuel",
+          "iconKey": "fuel"
+        },
+        {
+          "title": "Electric Motorbikes",
+          "description": "Discover the future of riding with silent, high-performance electric motorcycles. View battery capacity and range (km).",
+          "href": "/inventory/electric",
+          "iconKey": "electric"
+        },
+        {
+          "title": "Brand New Models",
+          "description": "The latest models with zero mileage. Our collection features only 'new' condition bikes from top brands. Ready to ride.",
+          "href": "/inventory/new",
+          "iconKey": "new"
+        },
+        {
+          "title": "Certified & Inspected",
+          "description": "Guaranteed quality used bikes that have been 'certified' by our technicians. Check our inspection process and warranty terms.",
+          "href": "/inventory/certified",
+          "iconKey": "certified"
+        }
+      ]
     }
   },
   "MotorcycleCard": {
