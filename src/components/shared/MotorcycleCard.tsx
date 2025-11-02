@@ -104,7 +104,7 @@ export default function MotorcycleCard({ motorcycle }: MotorcycleCardProps) {
               <p className="text-zinc-500 text-xs uppercase">{t("price")}</p>
               <p className="text-2xl font-black text-white">
                 {formattedPrice > 0
-                  ? `$${formattedPrice.toLocaleString()}`
+                  ? `$${formattedPrice.toLocaleString("en-US")}`
                   : t("contact")}
               </p>
             </div>
