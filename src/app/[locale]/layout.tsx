@@ -6,6 +6,7 @@ import { hasLocale } from "@/i18n/utils";
 import { Navbar } from "@/app/[locale]/_components/Navbar";
 import { getLocaleData } from "@/i18n/request";
 import { NextIntlClientProvider } from "next-intl";
+import Footer from "./_components/Footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,9 +29,10 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <div className="flex flex-col min-h-screen">
+          <div className="flex flex-col min-h-screen bg-zinc-950">
             <Navbar />
             <main className="flex-grow">{children}</main>
+            <Footer />
           </div>
         </NextIntlClientProvider>
       </body>
