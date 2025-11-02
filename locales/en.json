@@ -26,32 +26,24 @@
     "WhyChooseUsSection": {
       "tagline": "Why Choose Us",
       "heading": "THE MOTORIDERS DIFFERENCE",
-      "features": [
-        {
+      "features": {
+        "fuel": {
           "title": "Fuel-Powered Bikes",
-          "description": "Explore our wide range of classic motorcycles with powerful internal combustion engines. Check engine displacement and fuel capacity.",
-          "href": "/inventory/fuel",
-          "iconKey": "fuel"
+          "description": "Explore our wide range of classic motorcycles with powerful internal combustion engines. Check engine displacement and fuel capacity."
         },
-        {
+        "electric": {
           "title": "Electric Motorbikes",
-          "description": "Discover the future of riding with silent, high-performance electric motorcycles. View battery capacity and range (km).",
-          "href": "/inventory/electric",
-          "iconKey": "electric"
+          "description": "Discover the future of riding with silent, high-performance electric motorcycles. View battery capacity and range (km)."
         },
-        {
+        "new": {
           "title": "Brand New Models",
-          "description": "The latest models with zero mileage. Our collection features only 'new' condition bikes from top brands. Ready to ride.",
-          "href": "/inventory/new",
-          "iconKey": "new"
+          "description": "The latest models with zero mileage. Our collection features only 'new' condition bikes from top brands. Ready to ride."
         },
-        {
+        "certified": {
           "title": "Certified & Inspected",
-          "description": "Guaranteed quality used bikes that have been 'certified' by our technicians. Check our inspection process and warranty terms.",
-          "href": "/inventory/certified",
-          "iconKey": "certified"
+          "description": "Guaranteed quality used bikes that have been 'certified' by our technicians. Check our inspection process and warranty terms."
         }
-      ]
+      }
     }
   },
   "MotorcycleCard": {

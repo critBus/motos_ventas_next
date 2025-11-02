@@ -26,32 +26,24 @@
     "WhyChooseUsSection": {
       "tagline": "Por Qué Elegirnos",
       "heading": "LA DIFERENCIA MOTORIDERS",
-      "features": [
-        {
+      "features": {
+        "fuel": {
           "title": "Motos a Combustible",
-          "description": "Explora nuestra amplia gama de motocicletas clásicas con potentes motores de combustión interna. Consulta cilindrada y capacidad de combustible.",
-          "href": "/inventory/fuel",
-          "iconKey": "fuel"
+          "description": "Explora nuestra amplia gama de motocicletas clásicas con potentes motores de combustión interna. Consulta cilindrada y capacidad de combustible."
         },
-        {
+        "electric": {
           "title": "Motos Eléctricas",
-          "description": "Descubre el futuro de la conducción con motocicletas eléctricas silenciosas y de alto rendimiento. Consulta capacidad de batería y autonomía (km).",
-          "href": "/inventory/electric",
-          "iconKey": "electric"
+          "description": "Descubre el futuro de la conducción con motocicletas eléctricas silenciosas y de alto rendimiento. Consulta capacidad de batería y autonomía (km)."
         },
-        {
+        "new": {
           "title": "Modelos Nuevos",
-          "description": "Los modelos más recientes con cero kilometraje. Nuestra colección solo incluye motos 'nuevas' de las mejores marcas. Listas para rodar.",
-          "href": "/inventory/new",
-          "iconKey": "new"
+          "description": "Los modelos más recientes con cero kilometraje. Nuestra colección solo incluye motos 'nuevas' de las mejores marcas. Listas para rodar."
         },
-        {
+        "certified": {
           "title": "Certificadas e Inspeccionadas",
-          "description": "Motos usadas de calidad garantizada que han sido 'certificadas' por nuestros técnicos. Consulta nuestro proceso de inspección y términos de garantía.",
-          "href": "/inventory/certified",
-          "iconKey": "certified"
+          "description": "Motos usadas de calidad garantizada que han sido 'certificadas' por nuestros técnicos. Consulta nuestro proceso de inspección y términos de garantía."
         }
-      ]
+      }
     }
   },
   "MotorcycleCard": {
