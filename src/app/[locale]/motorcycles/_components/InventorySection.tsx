@@ -2,7 +2,11 @@
 
 import React, { useState, useMemo } from "react";
 import { Filter, Circle } from "lucide-react";
-import { Motorcycle } from "@/types/motorcycles.types";
+import {
+  GetMotorcyclesParams,
+  Motorcycle,
+  MotorcyclesResponse,
+} from "@/types/motorcycles.types";
 import MotorcycleCard from "@/components/shared/MotorcycleCard";
 const BACKGROUND_IMAGE_PATH = "/images/moto-ready-start.jpeg";
 // 1. Importar los tipos reales
@@ -253,7 +257,31 @@ function FilterGroup<T extends string>({
 
 // --- MAIN COMPONENT ---
 
-const InventorySection = () => {
+interface InventorySectionProps {
+  motorcycles: Motorcycle[];
+  loading: boolean;
+  error: string | null;
+  meta: Omit<MotorcyclesResponse, "results">;
+  activeParams: GetMotorcyclesParams;
+  onPageChange: (page: number) => void;
+  onSortChange: (ordering: string) => void;
+}
+
+const InventorySection = ({
+  motorcycles,
+  loading,
+  error,
+  meta,
+  activeParams,
+  onPageChange,
+  onSortChange,
+}: InventorySectionProps) => {
+  const pageSize = 10; //meta.pageSize
+  const totalPages =
+    pageSize && meta.count ? Math.ceil(meta.count / pageSize) : 1;
+  const currentPage = activeParams.page || 1;
+  //TODO poner el loading
+
   // 4. State for Filters and Sort (Actualizado a los nuevos nombres)
   const [brand, setBrand] = useState<BrandValue>("all");
   const [condition, setCondition] = useState<ConditionValue>("all");
@@ -329,6 +357,14 @@ const InventorySection = () => {
     return result;
   }, [brand, condition, fuelType, priceRange, sortBy]);
 
+  if (error) {
+    return (
+      <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+        {error}
+      </div>
+    );
+  }
+
   // 6. Render
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -389,11 +425,11 @@ const InventorySection = () => {
         {/* Right Column - Inventory Grid */}
         <div className="lg:col-span-3">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {filteredAndSortedInventory.map((motorcycle) => (
+            {motorcycles.map((motorcycle) => (
               <MotorcycleCard key={motorcycle.id} motorcycle={motorcycle} />
             ))}
           </div>
-          {filteredAndSortedInventory.length === 0 && (
+          {motorcycles.length === 0 && (
             <div className="text-center py-10 text-zinc-500 text-lg">
               No se encontraron motocicletas que coincidan con tus filtros.
             </div>

@@ -49,3 +49,39 @@ export interface MotorcyclesResponse {
   previous: string | null;
   results: Motorcycle[];
 }
+
+// src/types/motorcycles.types.ts
+
+// ... [Motorcycle y MotorcycleImage interfaces existentes] ...
+
+/**
+ * Interfaz para los parámetros de la solicitud GET /motorcycles/
+ * Incluye filtros (DjangoFilter), ordenamiento (OrderingFilter) y paginación.
+ */
+export interface GetMotorcyclesParams {
+  // Paginación (ajusta si usas 'limit' y 'offset' en lugar de 'page' y 'pageSize')
+  page?: number;
+  pageSize?: number;
+
+  // Ordenamiento (ej: 'price', '-year', 'created'). El '-' indica descendente.
+  ordering?: string;
+
+  // Búsqueda libre (ej: ?search=Honda)
+  search?: string;
+
+  // Filtros comunes (usando la sintaxis de DjangoFilter)
+  brand?: string;
+  condition?: "new" | "used";
+  status?: "draft" | "active" | "inactive";
+
+  // Filtros de rango (ej: ?year__gte=2020)
+  year__gte?: number | string; // Año mayor o igual que
+  year__lte?: number | string; // Año menor o igual que
+  price__gte?: number | string; // Precio mayor o igual que
+  price__lte?: number | string; // Precio menor o igual que
+
+  // Puedes añadir más filtros aquí:
+  min_price?: number;
+  max_price?: number;
+  // Permite otros parámetros de filtro dinámicos (necesario por el uso de DjangoFilterBackend)
+}
