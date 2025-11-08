@@ -1,7 +1,12 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { Filter, Circle } from "lucide-react";
+import {
+  Filter,
+  Circle,
+  ArrowBigRightDash,
+  ArrowBigLeftDash,
+} from "lucide-react";
 import {
   ConditionMotorcycleType,
   FuelType,
@@ -240,6 +245,74 @@ const InventorySection = ({
           {motorcycles.length === 0 && (
             <div className="text-center py-10 text-zinc-500 text-lg">
               {t("not_match")}
+            </div>
+          )}
+
+          {/* Control de Paginación */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-4 mt-8">
+              <button
+                onClick={() => onPageChange(currentPage - 1)}
+                disabled={currentPage <= 1}
+                className="inline-flex 
+              items-center 
+            justify-center 
+            h-9 px-4 py-2 
+            whitespace-nowrap rounded-md 
+            text-sm 
+            font-medium 
+            transition-colors 
+            focus-visible:outline-none 
+            focus-visible:ring-1 
+            focus-visible:ring-ring 
+            disabled:pointer-events-none 
+            disabled:opacity-50 
+            text-primary-foreground 
+            shadow 
+            bg-orange-500 
+            hover:bg-orange-600 
+            group-hover:bg-gradient-to-r 
+            group-hover:from-orange-500 
+            group-hover:to-red-600
+            hover:cursor-pointer
+            "
+              >
+                <ArrowBigLeftDash />
+              </button>
+              <span className="text-gray-700">
+                {t("pageIndicator", {
+                  currentPage,
+                  totalPages,
+                })}
+              </span>
+              <button
+                onClick={() => onPageChange(currentPage + 1)}
+                disabled={currentPage >= totalPages}
+                className="inline-flex 
+              items-center 
+            justify-center 
+            h-9 px-4 py-2 
+            whitespace-nowrap rounded-md 
+            text-sm 
+            font-medium 
+            transition-colors 
+            focus-visible:outline-none 
+            focus-visible:ring-1 
+            focus-visible:ring-ring 
+            disabled:pointer-events-none 
+            disabled:opacity-50 
+            text-primary-foreground 
+            shadow 
+            bg-orange-500 
+            hover:bg-orange-600 
+            group-hover:bg-gradient-to-r 
+            group-hover:from-orange-500 
+            group-hover:to-red-600
+            hover:cursor-pointer
+            "
+              >
+                <ArrowBigRightDash />
+              </button>
             </div>
           )}
         </div>

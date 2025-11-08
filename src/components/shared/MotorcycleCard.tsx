@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Search } from "lucide-react";
 import type { Motorcycle } from "@/types/motorcycles.types";
 import { useTranslations } from "next-intl";
 
@@ -109,22 +109,32 @@ export default function MotorcycleCard({ motorcycle }: MotorcycleCardProps) {
               </p>
             </div>
             <button
-              className="inline-flex items-center 
-            justify-center gap-2 whitespace-nowrap rounded-md 
-            text-sm font-medium transition-colors 
-            focus-visible:outline-none focus-visible:ring-1 
+              className="inline-flex 
+              items-center 
+            justify-center 
+            h-9 px-4 py-2 
+            gap-2 
+            whitespace-nowrap rounded-md 
+            text-sm 
+            font-medium 
+            transition-colors 
+            focus-visible:outline-none 
+            focus-visible:ring-1 
             focus-visible:ring-ring 
-            disabled:pointer-events-none disabled:opacity-50 
-            text-primary-foreground shadow h-9 px-4 py-2 
-            bg-orange-500 hover:bg-orange-600 
+            disabled:pointer-events-none 
+            disabled:opacity-50 
+            text-primary-foreground 
+            shadow 
+            bg-orange-500 
+            hover:bg-orange-600 
             group-hover:bg-gradient-to-r 
             group-hover:from-orange-500 
             group-hover:to-red-600
             hover:cursor-pointer
             "
             >
-              {t("view_details")}
-              <ArrowRight className="ml-2 w-4 h-4" />
+              <Search className=" w-4 h-4" />
+              {/* <ArrowRight className=" w-4 h-4" /> */}
             </button>
           </div>
         </div>

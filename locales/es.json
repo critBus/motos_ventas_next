@@ -98,7 +98,8 @@
       "price_high_to_low": "Price: High to Low",
       "mileage_low_to_high": "Mileage: Low to High",
       "name_a_z": "Name: A-Z",
-      "not_match": "No se encontraron motocicletas que coincidan con tus filtros."
+      "not_match": "No se encontraron motocicletas que coincidan con tus filtros.",
+      "pageIndicator": "Página {currentPage} de {totalPages}"
     }
   }
 }

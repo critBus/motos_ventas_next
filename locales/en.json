@@ -60,7 +60,7 @@
     "no_description_available": "No description available.",
     "price": "Price",
     "contact": "Contact",
-    "view_details": "View Details"
+    "view_details": "Details"
   },
   "Footer": {
     "tagline": "Your premier destination for high-performance motorcycles. Experience the thrill of the ride with our curated collection.",
@@ -98,7 +98,8 @@
       "price_high_to_low": "Precio: Mayor a Menor",
       "mileage_low_to_high": "Kilometraje: Menor a Mayor",
       "name_a_z": "Nombre: A-Z",
-      "not_match": "No motorcycles were found that match your filters."
+      "not_match": "No motorcycles were found that match your filters.",
+      "pageIndicator": "Page {currentPage} of {totalPages}"
     }
   }
 }

@@ -193,9 +193,9 @@ export default function MotorcyclesPage() {
       />
 
       {/* Muestra la cadena de consulta activa para debug */}
-      <p className="mt-8 text-sm text-gray-500">
+      {/* <p className="mt-8 text-sm text-gray-500">
         Parámetros de URL activos: {searchParams.toString() || "Ninguno"}
-      </p>
+      </p> */}
     </div>
   );
 }
