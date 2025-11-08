@@ -69,14 +69,14 @@ export interface GetMotorcyclesParams {
   pageSize?: number;
 
   // Ordenamiento (ej: 'price', '-year', 'created'). El '-' indica descendente.
-  ordering?: string;
+  ordering?: string | "";
 
   // Búsqueda libre (ej: ?search=Honda)
   search?: string;
 
   // Filtros comunes (usando la sintaxis de DjangoFilter)
   brand?: string;
-  condition?: ConditionMotorcycleType;
+  condition?: ConditionMotorcycleType | "";
   status?: StatusMotorcycleType;
 
   fuel_type?: FuelType | "";

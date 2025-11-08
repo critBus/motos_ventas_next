@@ -14,200 +14,6 @@ const BACKGROUND_IMAGE_PATH = "/images/moto-ready-start.jpeg";
 // 1. Importar los tipos reales
 
 // 2. Mock Data (Ajustado a la nueva estructura. En un entorno real, esto vendría de un fetch)
-const MOCK_INVENTORY: Motorcycle[] = [
-  {
-    id: 1,
-    images: [
-      {
-        id: 101,
-        image: BACKGROUND_IMAGE_PATH,
-      },
-    ],
-    created: "2023-11-01T10:00:00Z",
-    modified: "2023-11-01T10:00:00Z",
-    name: "R1",
-    brand: "Yamaha",
-    model_code: "YZF-R1",
-    year: 2024,
-    price: "18999.00",
-    condition: "new",
-    vehicle_type: "motorcycle",
-    fuel_type: "gas",
-    description:
-      "The ultimate superbike combining raw power with cutting-edge technology. Features advanced electronics, aerodynamic bodywork, and a screaming inline-four engine.",
-    status: "active",
-    published_at: "2023-11-01T10:00:00Z",
-    expires_at: null,
-    never_expires: true,
-    number_of_wheels: 2,
-    has_sidecar: false,
-    battery_capacity_kwh: "",
-    range_km: 0,
-    charging_time_hours: "",
-    engine_displacement_cc: 998,
-    motor_power_hp: "200",
-    top_speed_kmh: 300,
-    weight_kg: "201",
-    seat_height_mm: 855,
-    fuel_capacity_l: "17",
-    mileage_km: 0,
-    previous_owners: 0,
-    color: "Blue",
-    vin: "JYA...123",
-    certified: true,
-    is_visible_in_home: true,
-    visibility_index_in_home: 1,
-  },
-  {
-    id: 2,
-    images: [
-      {
-        id: 102,
-        image: BACKGROUND_IMAGE_PATH,
-      },
-    ],
-    created: "2023-09-15T10:00:00Z",
-    modified: "2023-09-15T10:00:00Z",
-    name: "Iron 883",
-    brand: "Harley-Davidson",
-    model_code: "XL883N",
-    year: 2022,
-    price: "9999.00",
-    condition: "used",
-    vehicle_type: "motorcycle",
-    fuel_type: "gas",
-    description:
-      "Classic American cruiser with authentic styling. The iconic Evolution engine delivers that legendary Harley rumble.",
-    status: "active",
-    published_at: "2023-09-15T10:00:00Z",
-    expires_at: null,
-    never_expires: true,
-    number_of_wheels: 2,
-    has_sidecar: false,
-    battery_capacity_kwh: "",
-    range_km: 0,
-    charging_time_hours: "",
-    engine_displacement_cc: 883,
-    motor_power_hp: "50",
-    top_speed_kmh: 180,
-    weight_kg: "256",
-    seat_height_mm: 735,
-    fuel_capacity_l: "12.5",
-    mileage_km: 8500,
-    previous_owners: 1,
-    color: "Black",
-    vin: "5HD...456",
-    certified: true,
-    is_visible_in_home: true,
-    visibility_index_in_home: 2,
-  },
-  {
-    id: 3,
-    images: [
-      {
-        id: 103,
-        image: BACKGROUND_IMAGE_PATH,
-      },
-    ],
-    created: "2023-10-10T10:00:00Z",
-    modified: "2023-10-10T10:00:00Z",
-    name: "R 1250 GS Adventure",
-    brand: "BMW",
-    model_code: "R1250GSA",
-    year: 2023,
-    price: "22995.00",
-    condition: "used",
-    vehicle_type: "motorcycle",
-    fuel_type: "gas",
-    description:
-      "The ultimate adventure touring motorcycle. Go anywhere, do anything with legendary reliability and comfort.",
-    status: "active",
-    published_at: "2023-10-10T10:00:00Z",
-    expires_at: null,
-    never_expires: true,
-    number_of_wheels: 2,
-    has_sidecar: false,
-    battery_capacity_kwh: "",
-    range_km: 0,
-    charging_time_hours: "",
-    engine_displacement_cc: 1254,
-    motor_power_hp: "136",
-    top_speed_kmh: 220,
-    weight_kg: "268",
-    seat_height_mm: 890,
-    fuel_capacity_l: "30",
-    mileage_km: 5200,
-    previous_owners: 1,
-    color: "White",
-    vin: "WB1...789",
-    certified: true,
-    is_visible_in_home: true,
-    visibility_index_in_home: 3,
-  },
-  // Agrega más mocks con los nuevos campos...
-];
-
-// 3. Tipos y Opciones para Filtros (Ajustado a los tipos reales de la API)
-
-// Los valores de Category (brand) y Condition son ahora dinámicos o provienen de la API
-// type BrandValue = string; // Usaremos 'brand' como filtro
-// type ConditionValue = Motorcycle["condition"] | "";
-type FuelTypeValue = Motorcycle["fuel_type"] | "";
-type PriceRangeValue =
-  | "all"
-  | "under_10k"
-  | "10k_20k"
-  | "20k_30k"
-  | "over_30k"
-  | "";
-type SortByValue =
-  | "-published_at"
-  | "price"
-  | "-price"
-  | "name"
-  | "-mileage_km"
-  | "mileage_km"; // Campos de ordenamiento de tu API (views.py)
-
-// const getUniqueBrands = (
-//   inventory: Motorcycle[]
-// ): { label: string; value: string }[] => {
-//   const brands = new Set(inventory.map((m) => m.brand));
-//   return [
-//     { label: "Todas las Marcas", value: "all" },
-//     ...Array.from(brands).map((brand) => ({ label: brand, value: brand })),
-//   ];
-// };
-
-// const CONDITION_OPTIONS: { label: string; value: string }[] = [
-//   { label: "Todas", value: "" },
-//   { label: "Nueva", value: "new" },
-//   { label: "Usada", value: "used" },
-// ];
-
-// const FUEL_TYPE_OPTIONS: { label: string; value: FuelTypeValue }[] = [
-//   { label: "Todos", value: "" },
-//   { label: "Gasolina", value: "gas" },
-//   { label: "Eléctrica", value: "electric" },
-//   { label: "Híbrida", value: "hybrid" },
-//   { label: "Diesel", value: "diesel" },
-//   { label: "Other", value: "other" },
-// ];
-
-const PRICE_RANGE_OPTIONS: { label: string; value: PriceRangeValue }[] = [
-  { label: "Todos los Precios", value: "all" },
-  { label: "Menos de $10,000", value: "under_10k" },
-  { label: "$10,000 - $20,000", value: "10k_20k" },
-  { label: "$20,000 - $30,000", value: "20k_30k" },
-  { label: "Más de $30,000", value: "over_30k" },
-];
-
-const SORT_BY_OPTIONS: { label: string; value: SortByValue }[] = [
-  { label: "Fecha: Más Reciente", value: "-published_at" },
-  { label: "Precio: Menor a Mayor", value: "price" },
-  { label: "Precio: Mayor a Menor", value: "-price" },
-  { label: "Kilometraje: Menor a Mayor", value: "mileage_km" },
-  { label: "Nombre: A-Z", value: "name" },
-];
 
 // --- REUSABLE FILTER GROUP COMPONENT (Mismo que en la respuesta anterior) ---
 
@@ -298,8 +104,10 @@ const InventorySection = ({
   const [brand, setBrand] = useState(activeParams.brand ?? "");
   const [condition, setCondition] = useState(activeParams.condition ?? "");
   const [fuelType, setFuelType] = useState(activeParams.fuel_type ?? "");
-  const [priceRange, setPriceRange] = useState<PriceRangeValue>("all");
-  const [sortBy, setSortBy] = useState<SortByValue>("-published_at");
+  // const [priceRange, setPriceRange] = useState<PriceRangeValue>("all");
+  const [sortBy, setSortBy] = useState(
+    activeParams.ordering ?? "-published_at"
+  );
 
   // Opciones de marca dinámicas (en un caso real, se cargarían aparte)
   //const brandOptions = useMemo(() => getUniqueBrands(MOCK_INVENTORY), []);
@@ -328,6 +136,16 @@ const InventorySection = ({
     setFuelType(fuel);
     onFilterChange({
       fuel_type: newFuelType,
+      page: 1, // Resetear la paginación
+    });
+  };
+
+  const handleOrderClick = (ordering: string | "") => {
+    const newOrdering =
+      activeParams.ordering === ordering ? undefined : ordering; // Desactivar si ya está seleccionado
+    setSortBy(ordering);
+    onFilterChange({
+      ordering: newOrdering,
       page: 1, // Resetear la paginación
     });
   };
@@ -461,17 +279,19 @@ const InventorySection = ({
                 />
 
                 <FilterGroup
-                  title="Rango de Precio"
-                  options={PRICE_RANGE_OPTIONS}
-                  selectedValue={priceRange}
-                  onChange={setPriceRange as (value: string) => void}
-                />
-
-                <FilterGroup
                   title="Ordenar Por"
-                  options={SORT_BY_OPTIONS}
+                  options={[
+                    { label: "Fecha: Más Reciente", value: "-published_at" },
+                    { label: "Precio: Menor a Mayor", value: "price" },
+                    { label: "Precio: Mayor a Menor", value: "-price" },
+                    {
+                      label: "Kilometraje: Menor a Mayor",
+                      value: "mileage_km",
+                    },
+                    { label: "Nombre: A-Z", value: "name" },
+                  ]}
                   selectedValue={sortBy}
-                  onChange={setSortBy as (value: string) => void}
+                  onChange={handleOrderClick}
                 />
               </div>
             </div>
