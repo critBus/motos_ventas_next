@@ -121,7 +121,10 @@ export default function MotorcyclesPage() {
 
       // Construir y navegar a la nueva URL
       const queryString = newQuery.toString();
-      router.push(`/motorcycles${queryString ? `?${queryString}` : ""}`);
+      router.replace(`/motorcycles${queryString ? `?${queryString}` : ""}`, {
+        scroll: false,
+      });
+      //router.push(`/motorcycles${queryString ? `?${queryString}` : ""}`);
     },
     [router, searchParams]
   ); // Dependencias para useCallback
@@ -186,6 +189,7 @@ export default function MotorcyclesPage() {
         activeParams={activeParams}
         onPageChange={(page) => handleFilterChange({ page })} // Implementación de paginación
         onSortChange={(ordering) => handleFilterChange({ ordering, page: 1 })} // Implementación de ordenamiento
+        onFilterChange={handleFilterChange}
       />
 
       {/* Muestra la cadena de consulta activa para debug */}

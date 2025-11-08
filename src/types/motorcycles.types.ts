@@ -5,6 +5,11 @@ export interface MotorcycleImage {
   image: string;
 }
 
+export type FuelType = "gas" | "electric" | "hybrid" | "diesel" | "other";
+export type StatusMotorcycleType = "draft" | "active" | "inactive";
+export type ConditionMotorcycleType = "new" | "used";
+export type VehicleMotorcycleType = "motorcycle" | "scooter" | "moped";
+
 export interface Motorcycle {
   id: number;
   images: MotorcycleImage[];
@@ -13,16 +18,16 @@ export interface Motorcycle {
   name: string;
   price: string; // Puede ser un número, pero el ejemplo usa string ("-0.1")
   description: string;
-  status: "draft" | "active" | "inactive"; // Ajusta según tus valores reales
+  status: StatusMotorcycleType; // Ajusta según tus valores reales
   published_at: string | null;
   expires_at: string | null;
   never_expires: boolean;
   brand: string;
   model_code: string;
   year: number;
-  condition: "new" | "used";
-  vehicle_type: "motorcycle" | "scooter" | "moped"; // Ajusta según tu API
-  fuel_type: "gas" | "electric" | "hybrid";
+  condition: ConditionMotorcycleType;
+  vehicle_type: VehicleMotorcycleType; // Ajusta según tu API
+  fuel_type: FuelType;
   number_of_wheels: number;
   has_sidecar: boolean;
   battery_capacity_kwh: string; // Puede estar vacío o ser un número como string
@@ -71,8 +76,10 @@ export interface GetMotorcyclesParams {
 
   // Filtros comunes (usando la sintaxis de DjangoFilter)
   brand?: string;
-  condition?: "new" | "used";
-  status?: "draft" | "active" | "inactive";
+  condition?: ConditionMotorcycleType;
+  status?: StatusMotorcycleType;
+
+  fuel_type?: FuelType | "";
 
   // Filtros de rango (ej: ?year__gte=2020)
   year__gte?: number | string; // Año mayor o igual que

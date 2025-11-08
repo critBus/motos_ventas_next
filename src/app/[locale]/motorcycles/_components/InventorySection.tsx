@@ -3,6 +3,8 @@
 import React, { useState, useMemo } from "react";
 import { Filter, Circle } from "lucide-react";
 import {
+  ConditionMotorcycleType,
+  FuelType,
   GetMotorcyclesParams,
   Motorcycle,
   MotorcyclesResponse,
@@ -148,10 +150,16 @@ const MOCK_INVENTORY: Motorcycle[] = [
 // 3. Tipos y Opciones para Filtros (Ajustado a los tipos reales de la API)
 
 // Los valores de Category (brand) y Condition son ahora dinámicos o provienen de la API
-type BrandValue = "all" | string; // Usaremos 'brand' como filtro
-type ConditionValue = Motorcycle["condition"] | "all";
-type FuelTypeValue = Motorcycle["fuel_type"] | "all";
-type PriceRangeValue = "all" | "under_10k" | "10k_20k" | "20k_30k" | "over_30k";
+// type BrandValue = string; // Usaremos 'brand' como filtro
+// type ConditionValue = Motorcycle["condition"] | "";
+type FuelTypeValue = Motorcycle["fuel_type"] | "";
+type PriceRangeValue =
+  | "all"
+  | "under_10k"
+  | "10k_20k"
+  | "20k_30k"
+  | "over_30k"
+  | "";
 type SortByValue =
   | "-published_at"
   | "price"
@@ -160,28 +168,30 @@ type SortByValue =
   | "-mileage_km"
   | "mileage_km"; // Campos de ordenamiento de tu API (views.py)
 
-const getUniqueBrands = (
-  inventory: Motorcycle[]
-): { label: string; value: BrandValue }[] => {
-  const brands = new Set(inventory.map((m) => m.brand));
-  return [
-    { label: "Todas las Marcas", value: "all" },
-    ...Array.from(brands).map((brand) => ({ label: brand, value: brand })),
-  ];
-};
+// const getUniqueBrands = (
+//   inventory: Motorcycle[]
+// ): { label: string; value: string }[] => {
+//   const brands = new Set(inventory.map((m) => m.brand));
+//   return [
+//     { label: "Todas las Marcas", value: "all" },
+//     ...Array.from(brands).map((brand) => ({ label: brand, value: brand })),
+//   ];
+// };
 
-const CONDITION_OPTIONS: { label: string; value: ConditionValue }[] = [
-  { label: "Todas", value: "all" },
-  { label: "Nueva", value: "new" },
-  { label: "Usada", value: "used" },
-];
+// const CONDITION_OPTIONS: { label: string; value: string }[] = [
+//   { label: "Todas", value: "" },
+//   { label: "Nueva", value: "new" },
+//   { label: "Usada", value: "used" },
+// ];
 
-const FUEL_TYPE_OPTIONS: { label: string; value: FuelTypeValue }[] = [
-  { label: "Todos", value: "all" },
-  { label: "Gasolina", value: "gas" },
-  { label: "Eléctrica", value: "electric" },
-  { label: "Híbrida", value: "hybrid" },
-];
+// const FUEL_TYPE_OPTIONS: { label: string; value: FuelTypeValue }[] = [
+//   { label: "Todos", value: "" },
+//   { label: "Gasolina", value: "gas" },
+//   { label: "Eléctrica", value: "electric" },
+//   { label: "Híbrida", value: "hybrid" },
+//   { label: "Diesel", value: "diesel" },
+//   { label: "Other", value: "other" },
+// ];
 
 const PRICE_RANGE_OPTIONS: { label: string; value: PriceRangeValue }[] = [
   { label: "Todos los Precios", value: "all" },
@@ -265,6 +275,7 @@ interface InventorySectionProps {
   activeParams: GetMotorcyclesParams;
   onPageChange: (page: number) => void;
   onSortChange: (ordering: string) => void;
+  onFilterChange: (newFilters: Partial<GetMotorcyclesParams>) => void;
 }
 
 const InventorySection = ({
@@ -275,6 +286,7 @@ const InventorySection = ({
   activeParams,
   onPageChange,
   onSortChange,
+  onFilterChange,
 }: InventorySectionProps) => {
   const pageSize = 10; //meta.pageSize
   const totalPages =
@@ -283,79 +295,107 @@ const InventorySection = ({
   //TODO poner el loading
 
   // 4. State for Filters and Sort (Actualizado a los nuevos nombres)
-  const [brand, setBrand] = useState<BrandValue>("all");
-  const [condition, setCondition] = useState<ConditionValue>("all");
-  const [fuelType, setFuelType] = useState<FuelTypeValue>("all");
+  const [brand, setBrand] = useState(activeParams.brand ?? "");
+  const [condition, setCondition] = useState(activeParams.condition ?? "");
+  const [fuelType, setFuelType] = useState(activeParams.fuel_type ?? "");
   const [priceRange, setPriceRange] = useState<PriceRangeValue>("all");
   const [sortBy, setSortBy] = useState<SortByValue>("-published_at");
 
   // Opciones de marca dinámicas (en un caso real, se cargarían aparte)
-  const brandOptions = useMemo(() => getUniqueBrands(MOCK_INVENTORY), []);
+  //const brandOptions = useMemo(() => getUniqueBrands(MOCK_INVENTORY), []);
+
+  const handleBrandClick = (brand: string) => {
+    const newBrand = activeParams.brand === brand ? undefined : brand; // Desactivar si ya está seleccionado
+    setBrand(brand);
+    onFilterChange({
+      brand: newBrand,
+      page: 1, // Resetear la paginación
+    });
+  };
+
+  const handleConditionClick = (condition: ConditionMotorcycleType | "") => {
+    const newCondition =
+      activeParams.condition === condition ? undefined : condition; // Desactivar si ya está seleccionado
+    setCondition(condition);
+    onFilterChange({
+      condition: newCondition,
+      page: 1, // Resetear la paginación
+    });
+  };
+
+  const handleFuelClick = (fuel: FuelType | "") => {
+    const newFuelType = activeParams.fuel_type === fuel ? undefined : fuel; // Desactivar si ya está seleccionado
+    setFuelType(fuel);
+    onFilterChange({
+      fuel_type: newFuelType,
+      page: 1, // Resetear la paginación
+    });
+  };
 
   // 5. Filter and Sort Logic (useMemo)
-  const filteredAndSortedInventory = useMemo(() => {
-    let result = MOCK_INVENTORY.filter((bike) => bike.status === "active"); // Solo activas
+  // const filteredAndSortedInventory = useMemo(() => {
+  //   let result = MOCK_INVENTORY.filter((bike) => bike.status === "active"); // Solo activas
 
-    // --- Filtering Logic ---
-    if (brand !== "all") {
-      result = result.filter((bike) => bike.brand === brand);
-    }
+  //   // --- Filtering Logic ---
+  //   if (brand !== "all") {
+  //     result = result.filter((bike) => bike.brand === brand);
+  //   }
 
-    if (condition !== "all") {
-      result = result.filter((bike) => bike.condition === condition);
-    }
+  //   if (condition !== "all") {
+  //     result = result.filter((bike) => bike.condition === condition);
+  //   }
 
-    if (fuelType !== "all") {
-      result = result.filter((bike) => bike.fuel_type === fuelType);
-    }
+  //   if (fuelType !== "all") {
+  //     result = result.filter((bike) => bike.fuel_type === fuelType);
+  //   }
 
-    if (priceRange !== "all") {
-      result = result.filter((bike) => {
-        const price = parseFloat(bike.price); // Parsear el string del precio
-        if (isNaN(price)) return false;
+  //   if (priceRange !== "all") {
+  //     result = result.filter((bike) => {
+  //       const price = parseFloat(bike.price); // Parsear el string del precio
+  //       if (isNaN(price)) return false;
 
-        switch (priceRange) {
-          case "under_10k":
-            return price < 10000;
-          case "10k_20k":
-            return price >= 10000 && price <= 20000;
-          case "20k_30k":
-            return price > 20000 && price <= 30000;
-          case "over_30k":
-            return price > 30000;
-          default:
-            return true;
-        }
-      });
-    }
+  //       switch (priceRange) {
+  //         case "under_10k":
+  //           return price < 10000;
+  //         case "10k_20k":
+  //           return price >= 10000 && price <= 20000;
+  //         case "20k_30k":
+  //           return price > 20000 && price <= 30000;
+  //         case "over_30k":
+  //           return price > 30000;
+  //         default:
+  //           return true;
+  //       }
+  //     });
+  //   }
 
-    // --- Sorting Logic ---
-    result.sort((a, b) => {
-      const priceA = parseFloat(a.price);
-      const priceB = parseFloat(b.price);
+  //   // --- Sorting Logic ---
+  //   result.sort((a, b) => {
+  //     const priceA = parseFloat(a.price);
+  //     const priceB = parseFloat(b.price);
 
-      switch (sortBy) {
-        case "price":
-          return isNaN(priceA) || isNaN(priceB) ? 0 : priceA - priceB;
-        case "-price":
-          return isNaN(priceA) || isNaN(priceB) ? 0 : priceB - priceA;
-        case "name":
-          return a.name.localeCompare(b.name);
-        case "mileage_km":
-          return a.mileage_km - b.mileage_km;
-        case "-mileage_km":
-          return b.mileage_km - a.mileage_km;
-        case "-published_at": // Usar fecha de publicación para ordenamiento por defecto
-        default:
-          return (
-            new Date(b.published_at!).getTime() -
-            new Date(a.published_at!).getTime()
-          );
-      }
-    });
+  //     switch (sortBy) {
+  //       case "price":
+  //         return isNaN(priceA) || isNaN(priceB) ? 0 : priceA - priceB;
+  //       case "-price":
+  //         return isNaN(priceA) || isNaN(priceB) ? 0 : priceB - priceA;
+  //       case "name":
+  //         return a.name.localeCompare(b.name);
+  //       case "mileage_km":
+  //         return a.mileage_km - b.mileage_km;
+  //       case "-mileage_km":
+  //         return b.mileage_km - a.mileage_km;
+  //       case "-published_at": // Usar fecha de publicación para ordenamiento por defecto
+  //       default:
+  //         return (
+  //           new Date(b.published_at!).getTime() -
+  //           new Date(a.published_at!).getTime()
+  //         );
+  //     }
+  //   });
 
-    return result;
-  }, [brand, condition, fuelType, priceRange, sortBy]);
+  //   return result;
+  // }, [brand, condition, fuelType, priceRange, sortBy]);
 
   if (error) {
     return (
@@ -384,24 +424,40 @@ const InventorySection = ({
               <div className="p-6 pt-0 space-y-6">
                 <FilterGroup
                   title="Marca"
-                  options={brandOptions}
+                  options={[
+                    { label: "All", value: "" },
+                    { label: "Yamaha", value: "Yamaha" },
+                    { label: "Triumph", value: "Triumph" },
+                    { label: "Kawasaki", value: "Kawasaki" },
+                  ]}
                   selectedValue={brand}
-                  onChange={setBrand as (value: string) => void}
+                  onChange={handleBrandClick}
                   isFirst={true}
                 />
 
                 <FilterGroup
                   title="Condición"
-                  options={CONDITION_OPTIONS}
+                  options={[
+                    { label: "Todas", value: "" },
+                    { label: "Nueva", value: "new" },
+                    { label: "Usada", value: "used" },
+                  ]}
                   selectedValue={condition}
-                  onChange={setCondition as (value: string) => void}
+                  onChange={handleConditionClick}
                 />
 
                 <FilterGroup
                   title="Tipo de Combustible"
-                  options={FUEL_TYPE_OPTIONS}
+                  options={[
+                    { label: "Todos", value: "" },
+                    { label: "Gasolina", value: "gas" },
+                    { label: "Eléctrica", value: "electric" },
+                    { label: "Híbrida", value: "hybrid" },
+                    { label: "Diesel", value: "diesel" },
+                    { label: "Other", value: "other" },
+                  ]}
                   selectedValue={fuelType}
-                  onChange={setFuelType as (value: string) => void}
+                  onChange={handleFuelClick}
                 />
 
                 <FilterGroup
