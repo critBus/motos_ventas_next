@@ -1,6 +1,5 @@
 "use client";
-import React, { useState } from "react";
-// 1. Importar useTranslations
+import React, { useState, useEffect, useRef } from "react"; // 1. Importar useEffect y useRef
 import { useTranslations } from "next-intl";
 import { GetMotorcyclesParams } from "@/types/motorcycles.types";
 
@@ -9,26 +8,54 @@ const SearchSection = ({
 }: {
   onFilterChange: (newFilters: Partial<GetMotorcyclesParams>) => void;
 }) => {
-  // Inicializar traducciones
   const t = useTranslations("Motorcycles.SearchSection");
 
-  // 2. Define state for the search query
+  // 2. Define state for the search query (lo que se escribe en el input)
   const [searchQuery, setSearchQuery] = useState("");
 
-  // 3. Define the change handler function
+  // 3. Define state for the DEBOUNCED search query (lo que se usa para filtrar)
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
+
+  // 4. Duración del debounce en milisegundos
+  const DEBOUNCE_DELAY = 500; // 500ms
+
+  // --- Manejo del Debounce con useEffect ---
+
+  // Este useEffect se ejecuta cada vez que 'searchQuery' cambia.
+  useEffect(() => {
+    // 5. Establecer un temporizador (timeout)
+    const handler = setTimeout(() => {
+      // 6. Actualizar el estado debounced después del retraso
+      setDebouncedSearchQuery(searchQuery);
+    }, DEBOUNCE_DELAY);
+
+    // 7. Cleanup function: se ejecuta si searchQuery cambia antes del retraso
+    // o cuando el componente se desmonta. Esto "cancela" el temporizador anterior.
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchQuery]); // Dependencia: solo se ejecuta cuando searchQuery cambia
+
+  // --- Aplicar Filtro Debounceado con un segundo useEffect ---
+
+  // Este useEffect se ejecuta solo cuando 'debouncedSearchQuery' cambia (después del debounce)
+  useEffect(() => {
+    // 8. Aplicar el filtro a través de la prop onFilterChange
+    onFilterChange({
+      search: debouncedSearchQuery,
+      page: 1, // Resetear la paginación
+    });
+  }, [debouncedSearchQuery, onFilterChange]); // Dependencia: solo se ejecuta cuando debouncedSearchQuery cambia. Incluir onFilterChange.
+
+  // 9. Define the input change handler function
   const handleSearchChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
-    const search = event.target.value + "";
-    setSearchQuery(search);
-    onFilterChange({
-      search: search,
-      page: 1, // Resetear la paginación
-    });
+    // Solo actualiza el estado inmediato del input
+    setSearchQuery(event.target.value + "");
+    // NOTA: Ya NO se llama a onFilterChange aquí, el useEffect lo manejará
   };
 
-  // Se asume que el número de resultados (6) es una variable que se pasa por props o se calcula dentro del componente.
-  // Para este ejemplo, mantendré el 6 estático como estaba, pero se recomienda reemplazarlo con una prop.
   const resultCount = 6;
 
   return (
@@ -54,14 +81,12 @@ const SearchSection = ({
             <input
               type="text"
               className="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm pl-10 bg-zinc-900 border-zinc-800 text-white placeholder:text-zinc-500 focus:border-orange-500"
-              // Usar 't' para el placeholder
               placeholder={t("searchPlaceholder")}
               value={searchQuery}
               onChange={handleSearchChange}
             />
           </div>
           <div className="text-zinc-400">
-            {/* Usar 't' para el texto de resultados. Se usa un plural. */}
             <span className="font-semibold text-white">{resultCount}</span>{" "}
             {t("results", { count: resultCount })}
           </div>
