@@ -80,6 +80,25 @@
     "SearchSection": {
       "searchPlaceholder": "Buscar por marca, modelo...",
       "results": "{count, plural, one {motocicleta encontrada} other {motocicletas encontradas}}"
+    },
+    "InventorySection": {
+      "filters": "Filtros",
+      "all": "Todos",
+      "brand": "Marca",
+      "condition": "Condición",
+      "fuel_type": "Tipo de Combustible",
+      "sort_by": "Ordenar Por",
+      "gasoline": "Gasolina",
+      "electric": "Eléctrica",
+      "hybrid": "Híbrida",
+      "diesel": "Diesel",
+      "other": "Otra",
+      "most_recent_date": "Date: Most Recent",
+      "price_low_to_high": "Price: Low to High",
+      "price_high_to_low": "Price: High to Low",
+      "mileage_low_to_high": "Mileage: Low to High",
+      "name_a_z": "Name: A-Z",
+      "not_match": "No se encontraron motocicletas que coincidan con tus filtros."
     }
   }
 }

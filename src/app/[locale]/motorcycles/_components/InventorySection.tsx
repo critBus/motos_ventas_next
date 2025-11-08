@@ -10,10 +10,7 @@ import {
   MotorcyclesResponse,
 } from "@/types/motorcycles.types";
 import MotorcycleCard from "@/components/shared/MotorcycleCard";
-const BACKGROUND_IMAGE_PATH = "/images/moto-ready-start.jpeg";
-// 1. Importar los tipos reales
-
-// 2. Mock Data (Ajustado a la nueva estructura. En un entorno real, esto vendría de un fetch)
+import { useTranslations } from "next-intl";
 
 // --- REUSABLE FILTER GROUP COMPONENT (Mismo que en la respuesta anterior) ---
 
@@ -94,6 +91,7 @@ const InventorySection = ({
   onSortChange,
   onFilterChange,
 }: InventorySectionProps) => {
+  const t = useTranslations("Motorcycles.InventorySection");
   const pageSize = 10; //meta.pageSize
   const totalPages =
     pageSize && meta.count ? Math.ceil(meta.count / pageSize) : 1;
@@ -150,71 +148,6 @@ const InventorySection = ({
     });
   };
 
-  // 5. Filter and Sort Logic (useMemo)
-  // const filteredAndSortedInventory = useMemo(() => {
-  //   let result = MOCK_INVENTORY.filter((bike) => bike.status === "active"); // Solo activas
-
-  //   // --- Filtering Logic ---
-  //   if (brand !== "all") {
-  //     result = result.filter((bike) => bike.brand === brand);
-  //   }
-
-  //   if (condition !== "all") {
-  //     result = result.filter((bike) => bike.condition === condition);
-  //   }
-
-  //   if (fuelType !== "all") {
-  //     result = result.filter((bike) => bike.fuel_type === fuelType);
-  //   }
-
-  //   if (priceRange !== "all") {
-  //     result = result.filter((bike) => {
-  //       const price = parseFloat(bike.price); // Parsear el string del precio
-  //       if (isNaN(price)) return false;
-
-  //       switch (priceRange) {
-  //         case "under_10k":
-  //           return price < 10000;
-  //         case "10k_20k":
-  //           return price >= 10000 && price <= 20000;
-  //         case "20k_30k":
-  //           return price > 20000 && price <= 30000;
-  //         case "over_30k":
-  //           return price > 30000;
-  //         default:
-  //           return true;
-  //       }
-  //     });
-  //   }
-
-  //   // --- Sorting Logic ---
-  //   result.sort((a, b) => {
-  //     const priceA = parseFloat(a.price);
-  //     const priceB = parseFloat(b.price);
-
-  //     switch (sortBy) {
-  //       case "price":
-  //         return isNaN(priceA) || isNaN(priceB) ? 0 : priceA - priceB;
-  //       case "-price":
-  //         return isNaN(priceA) || isNaN(priceB) ? 0 : priceB - priceA;
-  //       case "name":
-  //         return a.name.localeCompare(b.name);
-  //       case "mileage_km":
-  //         return a.mileage_km - b.mileage_km;
-  //       case "-mileage_km":
-  //         return b.mileage_km - a.mileage_km;
-  //       case "-published_at": // Usar fecha de publicación para ordenamiento por defecto
-  //       default:
-  //         return (
-  //           new Date(b.published_at!).getTime() -
-  //           new Date(a.published_at!).getTime()
-  //         );
-  //     }
-  //   });
-
-  //   return result;
-  // }, [brand, condition, fuelType, priceRange, sortBy]);
-
   if (error) {
     return (
       <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded">
@@ -223,7 +156,6 @@ const InventorySection = ({
     );
   }
 
-  // 6. Render
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -236,14 +168,14 @@ const InventorySection = ({
               <div className="flex flex-col space-y-1.5 p-6">
                 <div className="font-semibold leading-none tracking-tight flex items-center gap-2 text-white">
                   <Filter className="w-5 h-5 text-orange-500" />
-                  Filtros
+                  {t("filters")}
                 </div>
               </div>
               <div className="p-6 pt-0 space-y-6">
                 <FilterGroup
-                  title="Marca"
+                  title={t("brand")}
                   options={[
-                    { label: "All", value: "" },
+                    { label: t("all"), value: "" },
                     { label: "Yamaha", value: "Yamaha" },
                     { label: "Triumph", value: "Triumph" },
                     { label: "Kawasaki", value: "Kawasaki" },
@@ -254,9 +186,9 @@ const InventorySection = ({
                 />
 
                 <FilterGroup
-                  title="Condición"
+                  title={t("condition")}
                   options={[
-                    { label: "Todas", value: "" },
+                    { label: t("all"), value: "" },
                     { label: "Nueva", value: "new" },
                     { label: "Usada", value: "used" },
                   ]}
@@ -265,30 +197,30 @@ const InventorySection = ({
                 />
 
                 <FilterGroup
-                  title="Tipo de Combustible"
+                  title={t("fuel_type")}
                   options={[
-                    { label: "Todos", value: "" },
-                    { label: "Gasolina", value: "gas" },
-                    { label: "Eléctrica", value: "electric" },
-                    { label: "Híbrida", value: "hybrid" },
-                    { label: "Diesel", value: "diesel" },
-                    { label: "Other", value: "other" },
+                    { label: t("all"), value: "" },
+                    { label: t("gasoline"), value: "gas" },
+                    { label: t("electric"), value: "electric" },
+                    { label: t("hybrid"), value: "hybrid" },
+                    { label: t("diesel"), value: "diesel" },
+                    { label: t("other"), value: "other" },
                   ]}
                   selectedValue={fuelType}
                   onChange={handleFuelClick}
                 />
 
                 <FilterGroup
-                  title="Ordenar Por"
+                  title={t("sort_by")}
                   options={[
-                    { label: "Fecha: Más Reciente", value: "-published_at" },
-                    { label: "Precio: Menor a Mayor", value: "price" },
-                    { label: "Precio: Mayor a Menor", value: "-price" },
+                    { label: t("most_recent_date"), value: "-published_at" },
+                    { label: t("price_low_to_high"), value: "price" },
+                    { label: t("price_high_to_low"), value: "-price" },
                     {
-                      label: "Kilometraje: Menor a Mayor",
+                      label: t("mileage_low_to_high"),
                       value: "mileage_km",
                     },
-                    { label: "Nombre: A-Z", value: "name" },
+                    { label: t("name_a_z"), value: "name" },
                   ]}
                   selectedValue={sortBy}
                   onChange={handleOrderClick}
@@ -307,7 +239,7 @@ const InventorySection = ({
           </div>
           {motorcycles.length === 0 && (
             <div className="text-center py-10 text-zinc-500 text-lg">
-              No se encontraron motocicletas que coincidan con tus filtros.
+              {t("not_match")}
             </div>
           )}
         </div>
