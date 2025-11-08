@@ -72,7 +72,7 @@ const PremiumSelectionSection = () => {
 
         <div className="text-center mt-12">
           <Link
-            href="/bikes"
+            href="/motorcycles"
             className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm h-9 border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white font-bold px-8 py-6 text-lg group"
           >
             {t("view_all_motorcycles")}
