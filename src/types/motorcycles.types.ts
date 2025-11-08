@@ -72,7 +72,7 @@ export interface GetMotorcyclesParams {
   ordering?: string | "";
 
   // Búsqueda libre (ej: ?search=Honda)
-  search?: string;
+  search?: string | "";
 
   // Filtros comunes (usando la sintaxis de DjangoFilter)
   brand?: string;

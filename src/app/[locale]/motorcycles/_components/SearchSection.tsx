@@ -1,11 +1,14 @@
-// SearchSection.tsx
-
 "use client";
 import React, { useState } from "react";
 // 1. Importar useTranslations
 import { useTranslations } from "next-intl";
+import { GetMotorcyclesParams } from "@/types/motorcycles.types";
 
-const SearchSection = () => {
+const SearchSection = ({
+  onFilterChange,
+}: {
+  onFilterChange: (newFilters: Partial<GetMotorcyclesParams>) => void;
+}) => {
   // Inicializar traducciones
   const t = useTranslations("Motorcycles.SearchSection");
 
@@ -16,7 +19,12 @@ const SearchSection = () => {
   const handleSearchChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
-    setSearchQuery(event.target.value);
+    const search = event.target.value + "";
+    setSearchQuery(search);
+    onFilterChange({
+      search: search,
+      page: 1, // Resetear la paginación
+    });
   };
 
   // Se asume que el número de resultados (6) es una variable que se pasa por props o se calcula dentro del componente.
