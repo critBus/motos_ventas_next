@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl"; // 👈 Importamos useTranslations
 const featuresData = [
   {
     key: "fuel", // Clave para buscar en el JSON: features.fuel.title / features.fuel.description
-    href: "/inventory/fuel",
+    href: "/motorcycles?type=fuel",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +31,7 @@ const featuresData = [
   },
   {
     key: "electric",
-    href: "/inventory/electric",
+    href: "/motorcycles/?type=electric",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +51,7 @@ const featuresData = [
   },
   {
     key: "new",
-    href: "/inventory/new",
+    href: "/motorcycles/?type=new",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +74,7 @@ const featuresData = [
   },
   {
     key: "certified",
-    href: "/inventory/certified",
+    href: "/motorcycles/?type=certified",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"

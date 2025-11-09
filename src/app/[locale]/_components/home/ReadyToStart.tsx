@@ -48,7 +48,7 @@ const ReadyToStart = () => {
           <div className="flex flex-col sm:flex-row gap-4">
             {/* Link para Explorar Motocicletas - Usa ruta y texto traducidos */}
             <Link
-              href="/bikes" // Ruta traducida (ej: /bikes o /motos)
+              href="/motorcycles" // Ruta traducida (ej: /bikes o /motos)
               data-discover="true"
               className="sm:flex sm:flex-row sm:justify-center 
               sm:items-center"

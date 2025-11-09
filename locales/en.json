@@ -60,7 +60,7 @@
     "no_description_available": "No description available.",
     "price": "Price",
     "contact": "Contact",
-    "view_details": "View Details"
+    "view_details": "Details"
   },
   "Footer": {
     "tagline": "Your premier destination for high-performance motorcycles. Experience the thrill of the ride with our curated collection.",
@@ -70,5 +70,36 @@
     "linkContact": "Contact",
     "contactTitle": "Contact",
     "copyright": "© 2025 MotoRiders. All rights reserved."
+  },
+  "Motorcycles": {
+    "TagBrowseMotorcyclesSection": {
+      "browse": "BROWSE",
+      "motorcycles": "MOTORCYCLES",
+      "description": "Explore our complete collection of premium motorcycles"
+    },
+    "SearchSection": {
+      "searchPlaceholder": "Search by brand, model...",
+      "results": "{count, plural, one {motorcycle found} other {motorcycles found}}"
+    },
+    "InventorySection": {
+      "filters": "Filters",
+      "all": "All",
+      "brand": "Brand",
+      "condition": "Condition",
+      "fuel_type": "Fuel Type",
+      "sort_by": "Sort by",
+      "gasoline": "Gasoline",
+      "electric": "Electric",
+      "hybrid": "Hybrid",
+      "diesel": "Diesel",
+      "other": "Other",
+      "most_recent_date": "Fecha: Más Reciente",
+      "price_low_to_high": "Precio: Menor a Mayor",
+      "price_high_to_low": "Precio: Mayor a Menor",
+      "mileage_low_to_high": "Kilometraje: Menor a Mayor",
+      "name_a_z": "Nombre: A-Z",
+      "not_match": "No motorcycles were found that match your filters.",
+      "pageIndicator": "Page {currentPage} of {totalPages}"
+    }
   }
 }
