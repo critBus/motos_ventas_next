@@ -41,11 +41,13 @@ const searchParamsToParams = (
     if (numKeys.includes(paramKey)) {
       const numValue = parseInt(value, 10);
       if (!isNaN(numValue)) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         params[paramKey] = numValue as any; // Usar 'as any' para tipos más complejos como number | undefined
       }
     } else {
       // Para 'search', 'brand', 'ordering', 'condition', 'tags', etc.
       if (value) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         params[paramKey] = value as any;
       }
     }
@@ -81,6 +83,7 @@ export default function MotorcyclesPage() {
       };
 
       // Limpiar parámetros con valor nulo o indefinido, y resetear la página a 1 si el filtro cambia (y no es el propio page)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const finalParams: Record<string, any> = {};
       // let shouldResetPage = false;
 
@@ -180,10 +183,7 @@ export default function MotorcyclesPage() {
       />
 
       {/* Sección 2: Navegación por Tags/Categorías (ej: Marcas) */}
-      <TagBrowseMotorcyclesSection
-        activeParams={activeParams}
-        onTagSelect={handleFilterChange}
-      />
+      <TagBrowseMotorcyclesSection />
 
       {/* Sección 3: Resultados e Inventario */}
       <InventorySection
