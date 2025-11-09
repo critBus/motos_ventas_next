@@ -1,63 +1,65 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react"; // 1. Importar useEffect y useRef
+import React, { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { GetMotorcyclesParams } from "@/types/motorcycles.types";
 
 const SearchSection = ({
   onFilterChange,
+  activeParams,
 }: {
   onFilterChange: (newFilters: Partial<GetMotorcyclesParams>) => void;
+  activeParams: GetMotorcyclesParams;
 }) => {
   const t = useTranslations("Motorcycles.SearchSection");
+  const [initialState, setInitialState] = useState(activeParams.search ?? "");
+  const [searchQuery, setSearchQuery] = useState(activeParams.search ?? "");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(
+    activeParams.search ?? ""
+  );
+  // Referencia para detectar el primer renderizado
+  const isFirstRender = useRef(true);
 
-  // 2. Define state for the search query (lo que se escribe en el input)
-  const [searchQuery, setSearchQuery] = useState("");
+  const DEBOUNCE_DELAY = 500;
 
-  // 3. Define state for the DEBOUNCED search query (lo que se usa para filtrar)
-  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
-
-  // 4. Duración del debounce en milisegundos
-  const DEBOUNCE_DELAY = 500; // 500ms
-
-  // --- Manejo del Debounce con useEffect ---
-
-  // Este useEffect se ejecuta cada vez que 'searchQuery' cambia.
   useEffect(() => {
-    // 5. Establecer un temporizador (timeout)
+    if ((activeParams.search ?? "") !== initialState) {
+      setInitialState(activeParams.search ?? "");
+    }
+  }, [activeParams]);
+
+  useEffect(() => {
     const handler = setTimeout(() => {
-      // 6. Actualizar el estado debounced después del retraso
       setDebouncedSearchQuery(searchQuery);
     }, DEBOUNCE_DELAY);
 
-    // 7. Cleanup function: se ejecuta si searchQuery cambia antes del retraso
-    // o cuando el componente se desmonta. Esto "cancela" el temporizador anterior.
     return () => {
       clearTimeout(handler);
     };
-  }, [searchQuery]); // Dependencia: solo se ejecuta cuando searchQuery cambia
+  }, [searchQuery]);
 
-  // --- Aplicar Filtro Debounceado con un segundo useEffect ---
-
-  // Este useEffect se ejecuta solo cuando 'debouncedSearchQuery' cambia (después del debounce)
+  // Modificación clave: evita la ejecución en el primer renderizado
   useEffect(() => {
-    // 8. Aplicar el filtro a través de la prop onFilterChange
-    onFilterChange({
-      search: debouncedSearchQuery,
-      page: 1, // Resetear la paginación
-    });
-  }, [debouncedSearchQuery, onFilterChange]); // Dependencia: solo se ejecuta cuando debouncedSearchQuery cambia. Incluir onFilterChange.
+    // Si es el primer renderizado, solo marcamos que ya pasó y salimos
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (debouncedSearchQuery !== initialState) {
+      // Solo ejecutamos la búsqueda después de la interacción del usuario
+      onFilterChange({
+        search: debouncedSearchQuery,
+        page: 1,
+      });
+    }
+  }, [debouncedSearchQuery, onFilterChange]);
 
-  // 9. Define the input change handler function
   const handleSearchChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
-    // Solo actualiza el estado inmediato del input
     setSearchQuery(event.target.value + "");
-    // NOTA: Ya NO se llama a onFilterChange aquí, el useEffect lo manejará
   };
 
   const resultCount = 6;
-
   return (
     <div className="bg-black border-b border-zinc-800 sticky top-20 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">

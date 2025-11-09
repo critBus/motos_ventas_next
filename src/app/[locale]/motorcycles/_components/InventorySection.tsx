@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Filter,
   Circle,
@@ -98,9 +98,12 @@ const InventorySection = ({
 }: InventorySectionProps) => {
   const t = useTranslations("Motorcycles.InventorySection");
   const pageSize = 10; //meta.pageSize
-  const totalPages =
-    pageSize && meta.count ? Math.ceil(meta.count / pageSize) : 1;
-  const currentPage = activeParams.page || 1;
+  const [totalPages, setTotalPages] = useState(
+    pageSize && meta.count ? Math.ceil(meta.count / pageSize) : 1
+  );
+  // const totalPages =
+  //   pageSize && meta.count ? Math.ceil(meta.count / pageSize) : 1;
+  const [currentPage, setCurrentPage] = useState(activeParams.page || 1);
   //TODO poner el loading
 
   // 4. State for Filters and Sort (Actualizado a los nuevos nombres)
@@ -112,9 +115,12 @@ const InventorySection = ({
     activeParams.ordering ?? "-published_at"
   );
 
-  // Opciones de marca dinámicas (en un caso real, se cargarían aparte)
-  //const brandOptions = useMemo(() => getUniqueBrands(MOCK_INVENTORY), []);
-
+  useEffect(() => {
+    setTotalPages(
+      pageSize && meta.count ? Math.ceil(meta.count / pageSize) : 1
+    );
+    setCurrentPage(activeParams.page || 1);
+  }, [meta, activeParams]);
   const handleBrandClick = (brand: string) => {
     const newBrand = activeParams.brand === brand ? undefined : brand; // Desactivar si ya está seleccionado
     setBrand(brand);
@@ -150,6 +156,18 @@ const InventorySection = ({
     onFilterChange({
       ordering: newOrdering,
       page: 1, // Resetear la paginación
+    });
+  };
+
+  const handlerPaginationClick = (next: boolean) => {
+    const newPage = next
+      ? currentPage + 1
+      : currentPage > 1
+      ? currentPage - 1
+      : 1;
+    setCurrentPage(newPage);
+    onFilterChange({
+      page: newPage, // Resetear la paginación
     });
   };
 
@@ -252,7 +270,7 @@ const InventorySection = ({
           {totalPages > 1 && (
             <div className="flex justify-center items-center gap-4 mt-8">
               <button
-                onClick={() => onPageChange(currentPage - 1)}
+                onClick={() => handlerPaginationClick(false)}
                 disabled={currentPage <= 1}
                 className="inline-flex 
               items-center 
@@ -286,7 +304,7 @@ const InventorySection = ({
                 })}
               </span>
               <button
-                onClick={() => onPageChange(currentPage + 1)}
+                onClick={() => handlerPaginationClick(true)}
                 disabled={currentPage >= totalPages}
                 className="inline-flex 
               items-center 

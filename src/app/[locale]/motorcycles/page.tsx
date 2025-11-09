@@ -82,22 +82,22 @@ export default function MotorcyclesPage() {
 
       // Limpiar parámetros con valor nulo o indefinido, y resetear la página a 1 si el filtro cambia (y no es el propio page)
       const finalParams: Record<string, any> = {};
-      let shouldResetPage = false;
+      // let shouldResetPage = false;
 
       (
         Object.keys(combinedParams) as Array<keyof GetMotorcyclesParams>
       ).forEach((key) => {
         const value = combinedParams[key];
         // Excluimos la paginación de la comprobación de reseteo
-        if (key !== "page" && key !== "pageSize") {
-          // Comprueba si el valor del filtro ha cambiado
-          if (
-            String(value) !== searchParams.get(key) &&
-            !(value === undefined && searchParams.get(key) === null)
-          ) {
-            shouldResetPage = true;
-          }
-        }
+        // if (key !== "page" && key !== "pageSize") {
+        //   // Comprueba si el valor del filtro ha cambiado
+        //   if (
+        //     String(value) !== searchParams.get(key) &&
+        //     !(value === undefined && searchParams.get(key) === null)
+        //   ) {
+        //     shouldResetPage = true;
+        //   }
+        // }
 
         if (value !== undefined && value !== null && value !== "") {
           finalParams[key] = value;
@@ -105,16 +105,21 @@ export default function MotorcyclesPage() {
       });
 
       // Si algún filtro cambió, resetear la página a 1, a menos que el filtro sea la propia paginación
-      if (shouldResetPage) {
-        finalParams.page = 1;
-      }
+      // if (shouldResetPage) {
+      //   console.log("se reseteo el page");
+      //   finalParams.page = 1;
+      // }
+      // console.log(`shouldResetPage ${shouldResetPage} `);
 
       // Convertir el objeto final a URLSearchParams
       const newQuery = new URLSearchParams();
       (Object.keys(finalParams) as Array<keyof GetMotorcyclesParams>).forEach(
         (key) => {
           // Ignorar el page=1 si ya estaba en 1 y es el valor por defecto
-          if (key === "page" && finalParams[key] === 1) return;
+          if (key === "page" && finalParams[key] === 1) {
+            // console.log("lo salto");
+            return;
+          }
           newQuery.set(key, String(finalParams[key]));
         }
       );
