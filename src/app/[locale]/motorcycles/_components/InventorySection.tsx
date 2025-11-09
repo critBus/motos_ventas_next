@@ -1,199 +1,21 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
-import { Filter, Circle } from "lucide-react";
-import { Motorcycle } from "@/types/motorcycles.types";
+import React, { useState, useMemo, useEffect } from "react";
+import {
+  Filter,
+  Circle,
+  ArrowBigRightDash,
+  ArrowBigLeftDash,
+} from "lucide-react";
+import {
+  ConditionMotorcycleType,
+  FuelType,
+  GetMotorcyclesParams,
+  Motorcycle,
+  MotorcyclesResponse,
+} from "@/types/motorcycles.types";
 import MotorcycleCard from "@/components/shared/MotorcycleCard";
-const BACKGROUND_IMAGE_PATH = "/images/moto-ready-start.jpeg";
-// 1. Importar los tipos reales
-
-// 2. Mock Data (Ajustado a la nueva estructura. En un entorno real, esto vendría de un fetch)
-const MOCK_INVENTORY: Motorcycle[] = [
-  {
-    id: 1,
-    images: [
-      {
-        id: 101,
-        image: BACKGROUND_IMAGE_PATH,
-      },
-    ],
-    created: "2023-11-01T10:00:00Z",
-    modified: "2023-11-01T10:00:00Z",
-    name: "R1",
-    brand: "Yamaha",
-    model_code: "YZF-R1",
-    year: 2024,
-    price: "18999.00",
-    condition: "new",
-    vehicle_type: "motorcycle",
-    fuel_type: "gas",
-    description:
-      "The ultimate superbike combining raw power with cutting-edge technology. Features advanced electronics, aerodynamic bodywork, and a screaming inline-four engine.",
-    status: "active",
-    published_at: "2023-11-01T10:00:00Z",
-    expires_at: null,
-    never_expires: true,
-    number_of_wheels: 2,
-    has_sidecar: false,
-    battery_capacity_kwh: "",
-    range_km: 0,
-    charging_time_hours: "",
-    engine_displacement_cc: 998,
-    motor_power_hp: "200",
-    top_speed_kmh: 300,
-    weight_kg: "201",
-    seat_height_mm: 855,
-    fuel_capacity_l: "17",
-    mileage_km: 0,
-    previous_owners: 0,
-    color: "Blue",
-    vin: "JYA...123",
-    certified: true,
-    is_visible_in_home: true,
-    visibility_index_in_home: 1,
-  },
-  {
-    id: 2,
-    images: [
-      {
-        id: 102,
-        image: BACKGROUND_IMAGE_PATH,
-      },
-    ],
-    created: "2023-09-15T10:00:00Z",
-    modified: "2023-09-15T10:00:00Z",
-    name: "Iron 883",
-    brand: "Harley-Davidson",
-    model_code: "XL883N",
-    year: 2022,
-    price: "9999.00",
-    condition: "used",
-    vehicle_type: "motorcycle",
-    fuel_type: "gas",
-    description:
-      "Classic American cruiser with authentic styling. The iconic Evolution engine delivers that legendary Harley rumble.",
-    status: "active",
-    published_at: "2023-09-15T10:00:00Z",
-    expires_at: null,
-    never_expires: true,
-    number_of_wheels: 2,
-    has_sidecar: false,
-    battery_capacity_kwh: "",
-    range_km: 0,
-    charging_time_hours: "",
-    engine_displacement_cc: 883,
-    motor_power_hp: "50",
-    top_speed_kmh: 180,
-    weight_kg: "256",
-    seat_height_mm: 735,
-    fuel_capacity_l: "12.5",
-    mileage_km: 8500,
-    previous_owners: 1,
-    color: "Black",
-    vin: "5HD...456",
-    certified: true,
-    is_visible_in_home: true,
-    visibility_index_in_home: 2,
-  },
-  {
-    id: 3,
-    images: [
-      {
-        id: 103,
-        image: BACKGROUND_IMAGE_PATH,
-      },
-    ],
-    created: "2023-10-10T10:00:00Z",
-    modified: "2023-10-10T10:00:00Z",
-    name: "R 1250 GS Adventure",
-    brand: "BMW",
-    model_code: "R1250GSA",
-    year: 2023,
-    price: "22995.00",
-    condition: "used",
-    vehicle_type: "motorcycle",
-    fuel_type: "gas",
-    description:
-      "The ultimate adventure touring motorcycle. Go anywhere, do anything with legendary reliability and comfort.",
-    status: "active",
-    published_at: "2023-10-10T10:00:00Z",
-    expires_at: null,
-    never_expires: true,
-    number_of_wheels: 2,
-    has_sidecar: false,
-    battery_capacity_kwh: "",
-    range_km: 0,
-    charging_time_hours: "",
-    engine_displacement_cc: 1254,
-    motor_power_hp: "136",
-    top_speed_kmh: 220,
-    weight_kg: "268",
-    seat_height_mm: 890,
-    fuel_capacity_l: "30",
-    mileage_km: 5200,
-    previous_owners: 1,
-    color: "White",
-    vin: "WB1...789",
-    certified: true,
-    is_visible_in_home: true,
-    visibility_index_in_home: 3,
-  },
-  // Agrega más mocks con los nuevos campos...
-];
-
-// 3. Tipos y Opciones para Filtros (Ajustado a los tipos reales de la API)
-
-// Los valores de Category (brand) y Condition son ahora dinámicos o provienen de la API
-type BrandValue = "all" | string; // Usaremos 'brand' como filtro
-type ConditionValue = Motorcycle["condition"] | "all";
-type FuelTypeValue = Motorcycle["fuel_type"] | "all";
-type PriceRangeValue = "all" | "under_10k" | "10k_20k" | "20k_30k" | "over_30k";
-type SortByValue =
-  | "-published_at"
-  | "price"
-  | "-price"
-  | "name"
-  | "-mileage_km"
-  | "mileage_km"; // Campos de ordenamiento de tu API (views.py)
-
-const getUniqueBrands = (
-  inventory: Motorcycle[]
-): { label: string; value: BrandValue }[] => {
-  const brands = new Set(inventory.map((m) => m.brand));
-  return [
-    { label: "Todas las Marcas", value: "all" },
-    ...Array.from(brands).map((brand) => ({ label: brand, value: brand })),
-  ];
-};
-
-const CONDITION_OPTIONS: { label: string; value: ConditionValue }[] = [
-  { label: "Todas", value: "all" },
-  { label: "Nueva", value: "new" },
-  { label: "Usada", value: "used" },
-];
-
-const FUEL_TYPE_OPTIONS: { label: string; value: FuelTypeValue }[] = [
-  { label: "Todos", value: "all" },
-  { label: "Gasolina", value: "gas" },
-  { label: "Eléctrica", value: "electric" },
-  { label: "Híbrida", value: "hybrid" },
-];
-
-const PRICE_RANGE_OPTIONS: { label: string; value: PriceRangeValue }[] = [
-  { label: "Todos los Precios", value: "all" },
-  { label: "Menos de $10,000", value: "under_10k" },
-  { label: "$10,000 - $20,000", value: "10k_20k" },
-  { label: "$20,000 - $30,000", value: "20k_30k" },
-  { label: "Más de $30,000", value: "over_30k" },
-];
-
-const SORT_BY_OPTIONS: { label: string; value: SortByValue }[] = [
-  { label: "Fecha: Más Reciente", value: "-published_at" },
-  { label: "Precio: Menor a Mayor", value: "price" },
-  { label: "Precio: Mayor a Menor", value: "-price" },
-  { label: "Kilometraje: Menor a Mayor", value: "mileage_km" },
-  { label: "Nombre: A-Z", value: "name" },
-];
+import { useTranslations } from "next-intl";
 
 // --- REUSABLE FILTER GROUP COMPONENT (Mismo que en la respuesta anterior) ---
 
@@ -253,83 +75,110 @@ function FilterGroup<T extends string>({
 
 // --- MAIN COMPONENT ---
 
-const InventorySection = () => {
+interface InventorySectionProps {
+  motorcycles: Motorcycle[];
+  loading: boolean;
+  error: string | null;
+  meta: Omit<MotorcyclesResponse, "results">;
+  activeParams: GetMotorcyclesParams;
+  onPageChange: (page: number) => void;
+  onSortChange: (ordering: string) => void;
+  onFilterChange: (newFilters: Partial<GetMotorcyclesParams>) => void;
+}
+
+const InventorySection = ({
+  motorcycles,
+  loading,
+  error,
+  meta,
+  activeParams,
+  onPageChange,
+  onSortChange,
+  onFilterChange,
+}: InventorySectionProps) => {
+  const t = useTranslations("Motorcycles.InventorySection");
+  const pageSize = 10; //meta.pageSize
+  const [totalPages, setTotalPages] = useState(
+    pageSize && meta.count ? Math.ceil(meta.count / pageSize) : 1
+  );
+  // const totalPages =
+  //   pageSize && meta.count ? Math.ceil(meta.count / pageSize) : 1;
+  const [currentPage, setCurrentPage] = useState(activeParams.page || 1);
+  //TODO poner el loading
+
   // 4. State for Filters and Sort (Actualizado a los nuevos nombres)
-  const [brand, setBrand] = useState<BrandValue>("all");
-  const [condition, setCondition] = useState<ConditionValue>("all");
-  const [fuelType, setFuelType] = useState<FuelTypeValue>("all");
-  const [priceRange, setPriceRange] = useState<PriceRangeValue>("all");
-  const [sortBy, setSortBy] = useState<SortByValue>("-published_at");
+  const [brand, setBrand] = useState(activeParams.brand ?? "");
+  const [condition, setCondition] = useState(activeParams.condition ?? "");
+  const [fuelType, setFuelType] = useState(activeParams.fuel_type ?? "");
+  // const [priceRange, setPriceRange] = useState<PriceRangeValue>("all");
+  const [sortBy, setSortBy] = useState(
+    activeParams.ordering ?? "-published_at"
+  );
 
-  // Opciones de marca dinámicas (en un caso real, se cargarían aparte)
-  const brandOptions = useMemo(() => getUniqueBrands(MOCK_INVENTORY), []);
-
-  // 5. Filter and Sort Logic (useMemo)
-  const filteredAndSortedInventory = useMemo(() => {
-    let result = MOCK_INVENTORY.filter((bike) => bike.status === "active"); // Solo activas
-
-    // --- Filtering Logic ---
-    if (brand !== "all") {
-      result = result.filter((bike) => bike.brand === brand);
-    }
-
-    if (condition !== "all") {
-      result = result.filter((bike) => bike.condition === condition);
-    }
-
-    if (fuelType !== "all") {
-      result = result.filter((bike) => bike.fuel_type === fuelType);
-    }
-
-    if (priceRange !== "all") {
-      result = result.filter((bike) => {
-        const price = parseFloat(bike.price); // Parsear el string del precio
-        if (isNaN(price)) return false;
-
-        switch (priceRange) {
-          case "under_10k":
-            return price < 10000;
-          case "10k_20k":
-            return price >= 10000 && price <= 20000;
-          case "20k_30k":
-            return price > 20000 && price <= 30000;
-          case "over_30k":
-            return price > 30000;
-          default:
-            return true;
-        }
-      });
-    }
-
-    // --- Sorting Logic ---
-    result.sort((a, b) => {
-      const priceA = parseFloat(a.price);
-      const priceB = parseFloat(b.price);
-
-      switch (sortBy) {
-        case "price":
-          return isNaN(priceA) || isNaN(priceB) ? 0 : priceA - priceB;
-        case "-price":
-          return isNaN(priceA) || isNaN(priceB) ? 0 : priceB - priceA;
-        case "name":
-          return a.name.localeCompare(b.name);
-        case "mileage_km":
-          return a.mileage_km - b.mileage_km;
-        case "-mileage_km":
-          return b.mileage_km - a.mileage_km;
-        case "-published_at": // Usar fecha de publicación para ordenamiento por defecto
-        default:
-          return (
-            new Date(b.published_at!).getTime() -
-            new Date(a.published_at!).getTime()
-          );
-      }
+  useEffect(() => {
+    setTotalPages(
+      pageSize && meta.count ? Math.ceil(meta.count / pageSize) : 1
+    );
+    setCurrentPage(activeParams.page || 1);
+  }, [meta, activeParams]);
+  const handleBrandClick = (brand: string) => {
+    const newBrand = activeParams.brand === brand ? undefined : brand; // Desactivar si ya está seleccionado
+    setBrand(brand);
+    onFilterChange({
+      brand: newBrand,
+      page: 1, // Resetear la paginación
     });
+  };
 
-    return result;
-  }, [brand, condition, fuelType, priceRange, sortBy]);
+  const handleConditionClick = (condition: ConditionMotorcycleType | "") => {
+    const newCondition =
+      activeParams.condition === condition ? undefined : condition; // Desactivar si ya está seleccionado
+    setCondition(condition);
+    onFilterChange({
+      condition: newCondition,
+      page: 1, // Resetear la paginación
+    });
+  };
 
-  // 6. Render
+  const handleFuelClick = (fuel: FuelType | "") => {
+    const newFuelType = activeParams.fuel_type === fuel ? undefined : fuel; // Desactivar si ya está seleccionado
+    setFuelType(fuel);
+    onFilterChange({
+      fuel_type: newFuelType,
+      page: 1, // Resetear la paginación
+    });
+  };
+
+  const handleOrderClick = (ordering: string | "") => {
+    const newOrdering =
+      activeParams.ordering === ordering ? undefined : ordering; // Desactivar si ya está seleccionado
+    setSortBy(ordering);
+    onFilterChange({
+      ordering: newOrdering,
+      page: 1, // Resetear la paginación
+    });
+  };
+
+  const handlerPaginationClick = (next: boolean) => {
+    const newPage = next
+      ? currentPage + 1
+      : currentPage > 1
+      ? currentPage - 1
+      : 1;
+    setCurrentPage(newPage);
+    onFilterChange({
+      page: newPage, // Resetear la paginación
+    });
+  };
+
+  if (error) {
+    return (
+      <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+        {error}
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -342,44 +191,62 @@ const InventorySection = () => {
               <div className="flex flex-col space-y-1.5 p-6">
                 <div className="font-semibold leading-none tracking-tight flex items-center gap-2 text-white">
                   <Filter className="w-5 h-5 text-orange-500" />
-                  Filtros
+                  {t("filters")}
                 </div>
               </div>
               <div className="p-6 pt-0 space-y-6">
                 <FilterGroup
-                  title="Marca"
-                  options={brandOptions}
+                  title={t("brand")}
+                  options={[
+                    { label: t("all"), value: "" },
+                    { label: "Yamaha", value: "Yamaha" },
+                    { label: "Triumph", value: "Triumph" },
+                    { label: "Kawasaki", value: "Kawasaki" },
+                  ]}
                   selectedValue={brand}
-                  onChange={setBrand as (value: string) => void}
+                  onChange={handleBrandClick}
                   isFirst={true}
                 />
 
                 <FilterGroup
-                  title="Condición"
-                  options={CONDITION_OPTIONS}
+                  title={t("condition")}
+                  options={[
+                    { label: t("all"), value: "" },
+                    { label: "Nueva", value: "new" },
+                    { label: "Usada", value: "used" },
+                  ]}
                   selectedValue={condition}
-                  onChange={setCondition as (value: string) => void}
+                  onChange={handleConditionClick}
                 />
 
                 <FilterGroup
-                  title="Tipo de Combustible"
-                  options={FUEL_TYPE_OPTIONS}
+                  title={t("fuel_type")}
+                  options={[
+                    { label: t("all"), value: "" },
+                    { label: t("gasoline"), value: "gas" },
+                    { label: t("electric"), value: "electric" },
+                    { label: t("hybrid"), value: "hybrid" },
+                    { label: t("diesel"), value: "diesel" },
+                    { label: t("other"), value: "other" },
+                  ]}
                   selectedValue={fuelType}
-                  onChange={setFuelType as (value: string) => void}
+                  onChange={handleFuelClick}
                 />
 
                 <FilterGroup
-                  title="Rango de Precio"
-                  options={PRICE_RANGE_OPTIONS}
-                  selectedValue={priceRange}
-                  onChange={setPriceRange as (value: string) => void}
-                />
-
-                <FilterGroup
-                  title="Ordenar Por"
-                  options={SORT_BY_OPTIONS}
+                  title={t("sort_by")}
+                  options={[
+                    { label: t("most_recent_date"), value: "-published_at" },
+                    { label: t("price_low_to_high"), value: "price" },
+                    { label: t("price_high_to_low"), value: "-price" },
+                    {
+                      label: t("mileage_low_to_high"),
+                      value: "mileage_km",
+                    },
+                    { label: t("name_a_z"), value: "name" },
+                  ]}
                   selectedValue={sortBy}
-                  onChange={setSortBy as (value: string) => void}
+                  onChange={handleOrderClick}
                 />
               </div>
             </div>
@@ -389,13 +256,81 @@ const InventorySection = () => {
         {/* Right Column - Inventory Grid */}
         <div className="lg:col-span-3">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {filteredAndSortedInventory.map((motorcycle) => (
+            {motorcycles.map((motorcycle) => (
               <MotorcycleCard key={motorcycle.id} motorcycle={motorcycle} />
             ))}
           </div>
-          {filteredAndSortedInventory.length === 0 && (
+          {motorcycles.length === 0 && (
             <div className="text-center py-10 text-zinc-500 text-lg">
-              No se encontraron motocicletas que coincidan con tus filtros.
+              {t("not_match")}
+            </div>
+          )}
+
+          {/* Control de Paginación */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-4 mt-8">
+              <button
+                onClick={() => handlerPaginationClick(false)}
+                disabled={currentPage <= 1}
+                className="inline-flex 
+              items-center 
+            justify-center 
+            h-9 px-4 py-2 
+            whitespace-nowrap rounded-md 
+            text-sm 
+            font-medium 
+            transition-colors 
+            focus-visible:outline-none 
+            focus-visible:ring-1 
+            focus-visible:ring-ring 
+            disabled:pointer-events-none 
+            disabled:opacity-50 
+            text-primary-foreground 
+            shadow 
+            bg-orange-500 
+            hover:bg-orange-600 
+            group-hover:bg-gradient-to-r 
+            group-hover:from-orange-500 
+            group-hover:to-red-600
+            hover:cursor-pointer
+            "
+              >
+                <ArrowBigLeftDash />
+              </button>
+              <span className="text-gray-700">
+                {t("pageIndicator", {
+                  currentPage,
+                  totalPages,
+                })}
+              </span>
+              <button
+                onClick={() => handlerPaginationClick(true)}
+                disabled={currentPage >= totalPages}
+                className="inline-flex 
+              items-center 
+            justify-center 
+            h-9 px-4 py-2 
+            whitespace-nowrap rounded-md 
+            text-sm 
+            font-medium 
+            transition-colors 
+            focus-visible:outline-none 
+            focus-visible:ring-1 
+            focus-visible:ring-ring 
+            disabled:pointer-events-none 
+            disabled:opacity-50 
+            text-primary-foreground 
+            shadow 
+            bg-orange-500 
+            hover:bg-orange-600 
+            group-hover:bg-gradient-to-r 
+            group-hover:from-orange-500 
+            group-hover:to-red-600
+            hover:cursor-pointer
+            "
+              >
+                <ArrowBigRightDash />
+              </button>
             </div>
           )}
         </div>

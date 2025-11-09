@@ -1,28 +1,65 @@
-// SearchSection.tsx
-
 "use client";
-import React, { useState } from "react";
-// 1. Importar useTranslations
+import React, { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
+import { GetMotorcyclesParams } from "@/types/motorcycles.types";
 
-const SearchSection = () => {
-  // Inicializar traducciones
+const SearchSection = ({
+  onFilterChange,
+  activeParams,
+}: {
+  onFilterChange: (newFilters: Partial<GetMotorcyclesParams>) => void;
+  activeParams: GetMotorcyclesParams;
+}) => {
   const t = useTranslations("Motorcycles.SearchSection");
+  const [initialState, setInitialState] = useState(activeParams.search ?? "");
+  const [searchQuery, setSearchQuery] = useState(activeParams.search ?? "");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(
+    activeParams.search ?? ""
+  );
+  // Referencia para detectar el primer renderizado
+  const isFirstRender = useRef(true);
 
-  // 2. Define state for the search query
-  const [searchQuery, setSearchQuery] = useState("");
+  const DEBOUNCE_DELAY = 500;
 
-  // 3. Define the change handler function
+  useEffect(() => {
+    if ((activeParams.search ?? "") !== initialState) {
+      setInitialState(activeParams.search ?? "");
+    }
+  }, [activeParams]);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, DEBOUNCE_DELAY);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchQuery]);
+
+  // Modificación clave: evita la ejecución en el primer renderizado
+  useEffect(() => {
+    // Si es el primer renderizado, solo marcamos que ya pasó y salimos
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (debouncedSearchQuery !== initialState) {
+      // Solo ejecutamos la búsqueda después de la interacción del usuario
+      onFilterChange({
+        search: debouncedSearchQuery,
+        page: 1,
+      });
+    }
+  }, [debouncedSearchQuery, onFilterChange]);
+
   const handleSearchChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
-    setSearchQuery(event.target.value);
+    setSearchQuery(event.target.value + "");
   };
 
-  // Se asume que el número de resultados (6) es una variable que se pasa por props o se calcula dentro del componente.
-  // Para este ejemplo, mantendré el 6 estático como estaba, pero se recomienda reemplazarlo con una prop.
   const resultCount = 6;
-
   return (
     <div className="bg-black border-b border-zinc-800 sticky top-20 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -46,14 +83,12 @@ const SearchSection = () => {
             <input
               type="text"
               className="flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm pl-10 bg-zinc-900 border-zinc-800 text-white placeholder:text-zinc-500 focus:border-orange-500"
-              // Usar 't' para el placeholder
               placeholder={t("searchPlaceholder")}
               value={searchQuery}
               onChange={handleSearchChange}
             />
           </div>
           <div className="text-zinc-400">
-            {/* Usar 't' para el texto de resultados. Se usa un plural. */}
             <span className="font-semibold text-white">{resultCount}</span>{" "}
             {t("results", { count: resultCount })}
           </div>
