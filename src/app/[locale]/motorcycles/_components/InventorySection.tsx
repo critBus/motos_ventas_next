@@ -17,6 +17,7 @@ import {
 } from "@/types/motorcycles.types";
 import MotorcycleCard from "@/components/shared/MotorcycleCard";
 import { useTranslations } from "next-intl";
+import PriceRangeFilter from "./PriceRangeFilter";
 
 // --- REUSABLE FILTER GROUP COMPONENT (Mismo que el original) ---
 
@@ -172,11 +173,22 @@ const InventorySection = ({
     activeParams.ordering ?? "-published_at"
   );
 
+  const [minPrice, setMinPrice] = useState<string>(
+    activeParams.min_price?.toString() || ""
+  );
+  const [maxPrice, setMaxPrice] = useState<string>(
+    activeParams.max_price?.toString() || ""
+  );
+
   useEffect(() => {
     setTotalPages(
       pageSize && meta.count ? Math.ceil(meta.count / pageSize) : 1
     );
     setCurrentPage(activeParams.page || 1);
+
+    // Actualizar el estado de precios cuando los parámetros cambien
+    setMinPrice(activeParams.min_price?.toString() || "");
+    setMaxPrice(activeParams.max_price?.toString() || "");
   }, [meta, activeParams]);
 
   // Función para cerrar el Drawer al aplicar un filtro
@@ -238,6 +250,40 @@ const InventorySection = ({
     });
   };
 
+  // Función específica para manejar el rango de precios
+  const handlePriceRangeChange = useCallback(
+    (min: string, max: string) => {
+      const newFilters: Partial<GetMotorcyclesParams> = {
+        page: 1,
+      };
+
+      // Limpiar los valores de min_price y max_price si están vacíos
+      if (min.trim() === "") {
+        newFilters.min_price = undefined;
+      } else {
+        newFilters.min_price = Math.max(0, parseInt(min));
+      }
+
+      if (max.trim() === "") {
+        newFilters.max_price = undefined;
+      } else {
+        newFilters.max_price = Math.max(0, parseInt(max));
+      }
+
+      handleFilterChangeAndCloseDrawer(newFilters);
+    },
+    [handleFilterChangeAndCloseDrawer]
+  );
+
+  // Función para limpiar el rango de precios
+  const handleClearPriceRange = useCallback(() => {
+    handleFilterChangeAndCloseDrawer({
+      min_price: undefined,
+      max_price: undefined,
+      page: 1,
+    });
+  }, [handleFilterChangeAndCloseDrawer]);
+
   if (error) {
     return (
       <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded">
@@ -249,6 +295,12 @@ const InventorySection = ({
   // Contenido de los filtros (reutilizable)
   const filterContent = (
     <>
+      <PriceRangeFilter
+        minPrice={minPrice}
+        maxPrice={maxPrice}
+        onApply={handlePriceRangeChange}
+        onClear={handleClearPriceRange}
+      />
       <FilterGroup
         title={t("brand")}
         options={[

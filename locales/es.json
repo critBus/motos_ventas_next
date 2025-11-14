@@ -99,7 +99,15 @@
       "mileage_low_to_high": "Mileage: Low to High",
       "name_a_z": "Name: A-Z",
       "not_match": "No se encontraron motocicletas que coincidan con tus filtros.",
-      "pageIndicator": "Página {currentPage} de {totalPages}"
+      "pageIndicator": "Página {currentPage} de {totalPages}",
+      "price_range": {
+        "price_range": "Rango de Precio",
+        "min_price": "Precio Mínimo",
+        "max_price": "Precio Máximo",
+        "apply": "Aplicar",
+        "clear": "Limpiar",
+        "price_instructions": "Ingrese el precio en USD sin comas ni caracteres especiales"
+      }
     }
   }
 }
