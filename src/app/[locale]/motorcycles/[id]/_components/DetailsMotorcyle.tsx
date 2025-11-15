@@ -1,15 +1,12 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 // --- Importaciones de next-intl ---
 import { useLocale, useTranslations } from "next-intl";
 // ------------------------------------
 // Asegúrate de que la ruta de importación sea correcta para tu proyecto
 import { Motorcycle } from "@/types/motorcycles.types";
-
-// --- Helper para formatear el precio ---
-// (La función se movió DENTRO del componente para acceder a los hooks)
-// ----------------------------------------
 
 const DetailsMotorcyle = ({ motorcycle }: { motorcycle: Motorcycle }) => {
   // --- Hooks de next-intl ---
@@ -37,9 +34,71 @@ const DetailsMotorcyle = ({ motorcycle }: { motorcycle: Motorcycle }) => {
   };
   // ----------------------------------------
 
-  // Usa la primera imagen de la moto, o la de fallback
-  const imageUrl =
-    motorcycle.images?.[0]?.image || "/images/motorcycle-hero-girada.jpg";
+  // Estados para la galería de imágenes
+  const fallbackImage = "/images/motorcycle-hero-girada.jpg";
+  const images = motorcycle.images || [];
+  const thumbnailLimit = 4; // Muestra hasta 3 thumbs + "more" si hay más de 4
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const selectedImage = images[selectedImageIndex]?.image || fallbackImage;
+  const [largeImageDimensions, setLargeImageDimensions] = useState({
+    width: 0,
+    height: 0,
+  });
+  const [showModal, setShowModal] = useState(false);
+  const [modalIndex, setModalIndex] = useState(0);
+
+  // Estados para la lupa
+  const [showLens, setShowLens] = useState(false);
+  const [lensPosition, setLensPosition] = useState({ x: 0, y: 0 });
+  const [bgPosition, setBgPosition] = useState({ x: 0, y: 0 });
+  const imageRef = React.useRef<HTMLImageElement>(null);
+  const zoomFactor = 2;
+  const lensSize = 150;
+
+  // Función para actualizar la posición de la lupa
+  const updateLens = (
+    x: number,
+    y: number,
+    imgWidth: number,
+    imgHeight: number
+  ) => {
+    let lensX = x - lensSize / 2;
+    let lensY = y - lensSize / 2;
+
+    lensX = Math.max(0, Math.min(lensX, imgWidth - lensSize));
+    lensY = Math.max(0, Math.min(lensY, imgHeight - lensSize));
+
+    setLensPosition({ x: lensX, y: lensY });
+    setBgPosition({ x: -lensX * zoomFactor, y: -lensY * zoomFactor });
+  };
+
+  // Handlers para mouse
+  const handleMouseEnter = () => setShowLens(true);
+  const handleMouseLeave = () => setShowLens(false);
+  const handleMouseMove = (e: React.MouseEvent<HTMLImageElement>) => {
+    if (!imageRef.current) return;
+    const rect = imageRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    updateLens(x, y, rect.width, rect.height);
+  };
+
+  // Handlers para touch (móvil)
+  const handleTouchStart = () => setShowLens(true);
+  const handleTouchEnd = () => setShowLens(false);
+  const handleTouchMove = (e: React.TouchEvent<HTMLImageElement>) => {
+    if (!imageRef.current || e.touches.length === 0) return;
+    const touch = e.touches[0];
+    const rect = imageRef.current.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    updateLens(x, y, rect.width, rect.height);
+  };
+
+  // Reset dimensiones al cambiar imagen
+  React.useEffect(() => {
+    setLargeImageDimensions({ width: 0, height: 0 });
+  }, [selectedImage]);
 
   return (
     <div className="min-h-screen bg-zinc-950">
@@ -47,7 +106,7 @@ const DetailsMotorcyle = ({ motorcycle }: { motorcycle: Motorcycle }) => {
       <div className="bg-zinc-900 border-b border-zinc-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <Link href="/motorcycles" data-discover="true">
-            <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:bg-accent h-9 px-4 py-2 text-zinc-400 hover:text-white">
+            <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent h-9 px-4 py-2 text-zinc-400 hover:text-white">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -71,19 +130,176 @@ const DetailsMotorcyle = ({ motorcycle }: { motorcycle: Motorcycle }) => {
 
       {/* --- Contenido Principal --- */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* --- Imagen de Cabecera --- */}
-        <div className="relative mb-8 rounded-xl overflow-hidden bg-zinc-900">
-          <div className="relative h-96 md:h-[600px]">
-            <Image
-              src={imageUrl}
-              alt={motorcycle.name} // Dinámico
-              className="w-full h-full object-cover"
-              fill
-              priority // Buena idea para la imagen LCP
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+        {/* --- Galería de Imágenes --- */}
+        <div className="mb-8 rounded-xl overflow-hidden bg-zinc-900">
+          <div className="flex flex-col md:flex-row gap-4 p-4">
+            {/* Thumbnails (horizontal en mobile, vertical en desktop) */}
+            {images.length > 0 && (
+              <div className="flex md:flex-col gap-2 order-2 md:order-1 overflow-x-auto md:overflow-visible pb-2 md:pb-0">
+                {images.slice(0, thumbnailLimit).map((img, idx) => {
+                  if (
+                    idx < thumbnailLimit - 1 ||
+                    images.length <= thumbnailLimit
+                  ) {
+                    return (
+                      <div
+                        key={img.id}
+                        className={`relative w-20 h-20 flex-shrink-0 cursor-pointer rounded-md overflow-hidden ${
+                          selectedImageIndex === idx
+                            ? "border-2 border-orange-500"
+                            : "border border-zinc-700"
+                        }`}
+                        onClick={() => setSelectedImageIndex(idx)}
+                      >
+                        <Image
+                          src={img.image}
+                          alt={`Thumbnail ${idx + 1}`}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div
+                        key="more"
+                        className="relative w-20 h-20 flex-shrink-0 bg-zinc-800 flex items-center justify-center cursor-pointer text-white text-lg font-bold rounded-md border border-zinc-700"
+                        onClick={() => {
+                          setShowModal(true);
+                          setModalIndex(0);
+                        }}
+                      >
+                        +{images.length - (thumbnailLimit - 1)}
+                      </div>
+                    );
+                  }
+                })}
+              </div>
+            )}
+
+            {/* Imagen Principal con Lupa */}
+            <div className="flex-1 relative min-h-[300px] md:min-h-[600px] order-1 md:order-2 rounded-md overflow-hidden">
+              <Image
+                fill
+                ref={imageRef}
+                src={selectedImage}
+                alt={motorcycle.name}
+                className="w-full h-full object-cover"
+                onLoad={(e) =>
+                  setLargeImageDimensions({
+                    width: e.currentTarget.naturalWidth,
+                    height: e.currentTarget.naturalHeight,
+                  })
+                }
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onMouseMove={handleMouseMove}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                onTouchMove={handleTouchMove}
+              />
+              {showLens && largeImageDimensions.width > 0 && (
+                <div
+                  className="absolute pointer-events-none"
+                  style={{
+                    left: `${lensPosition.x}px`,
+                    top: `${lensPosition.y}px`,
+                    width: `${lensSize}px`,
+                    height: `${lensSize}px`,
+                    backgroundImage: `url(${selectedImage})`,
+                    backgroundPosition: `${bgPosition.x}px ${bgPosition.y}px`,
+                    backgroundSize: `${
+                      largeImageDimensions.width * zoomFactor
+                    }px ${largeImageDimensions.height * zoomFactor}px`,
+                    border: "2px solid white",
+                    borderRadius: "50%",
+                    overflow: "hidden",
+                  }}
+                />
+              )}
+            </div>
           </div>
         </div>
+
+        {/* Modal para ver todas las imágenes */}
+        {showModal && (
+          <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50">
+            <div className="relative w-full max-w-4xl h-[80vh] p-4">
+              <button
+                onClick={() => setShowModal(false)}
+                className="absolute top-2 right-2 text-white bg-zinc-800 rounded-full p-2 hover:bg-zinc-700"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-6 h-6"
+                >
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
+              </button>
+              <button
+                onClick={() =>
+                  setModalIndex((prev) =>
+                    prev > 0 ? prev - 1 : images.length - 1
+                  )
+                }
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 text-white bg-zinc-800 rounded-full p-2 hover:bg-zinc-700"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-6 h-6"
+                >
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+              </button>
+              <Image
+                src={images[modalIndex].image}
+                alt={`Image ${modalIndex + 1}`}
+                fill
+                className="object-contain"
+              />
+              <button
+                onClick={() =>
+                  setModalIndex((prev) =>
+                    prev < images.length - 1 ? prev + 1 : 0
+                  )
+                }
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white bg-zinc-800 rounded-full p-2 hover:bg-zinc-700"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-6 h-6"
+                >
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* --- Columna Izquierda (Detalles) --- */}
@@ -249,11 +465,11 @@ const DetailsMotorcyle = ({ motorcycle }: { motorcycle: Motorcycle }) => {
                 </div>
                 <div className="space-y-3">
                   <Link className="block" href="/contact" data-discover="true">
-                    <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 shadow hover:bg-primary/90 h-9 px-4 w-full bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold py-6 text-lg">
+                    <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow hover:bg-primary/90 h-9 px-4 w-full bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold py-6 text-lg">
                       {t("contactSellerButton")} {/* <-- Traducido */}
                     </button>
                   </Link>
-                  <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-background shadow-sm hover:text-accent-foreground h-9 px-4 w-full border-2 border-zinc-700 text-white hover:bg-zinc-800 py-6">
+                  <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-background shadow-sm hover:text-accent-foreground h-9 px-4 w-full border-2 border-zinc-700 text-white hover:bg-zinc-800 py-6">
                     {t("testRideButton")} {/* <-- Traducido */}
                   </button>
                 </div>
