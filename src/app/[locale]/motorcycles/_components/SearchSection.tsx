@@ -2,13 +2,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { GetMotorcyclesParams } from "@/types/motorcycles.types";
+import { Filter } from "lucide-react"; // Importamos el icono Filter
 
 const SearchSection = ({
   onFilterChange,
   activeParams,
+  isDrawerOpen,
+  setIsDrawerOpen,
 }: {
   onFilterChange: (newFilters: Partial<GetMotorcyclesParams>) => void;
   activeParams: GetMotorcyclesParams;
+  isDrawerOpen: boolean;
+  setIsDrawerOpen: (drawerOpen: boolean) => void;
 }) => {
   const t = useTranslations("Motorcycles.SearchSection");
   const [initialState, setInitialState] = useState(activeParams.search ?? "");
@@ -18,25 +23,20 @@ const SearchSection = ({
   );
   // Referencia para detectar el primer renderizado
   const isFirstRender = useRef(true);
-
   const DEBOUNCE_DELAY = 500;
-
   useEffect(() => {
     if ((activeParams.search ?? "") !== initialState) {
       setInitialState(activeParams.search ?? "");
     }
   }, [activeParams]);
-
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchQuery(searchQuery);
     }, DEBOUNCE_DELAY);
-
     return () => {
       clearTimeout(handler);
     };
   }, [searchQuery]);
-
   // Modificación clave: evita la ejecución en el primer renderizado
   useEffect(() => {
     // Si es el primer renderizado, solo marcamos que ya pasó y salimos
@@ -52,19 +52,17 @@ const SearchSection = ({
       });
     }
   }, [debouncedSearchQuery, onFilterChange]);
-
   const handleSearchChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
     setSearchQuery(event.target.value + "");
   };
-
   const resultCount = 6;
   return (
     <div className="bg-black border-b border-zinc-800 sticky top-20 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
-          <div className="relative w-full lg:w-96">
+          <div className="relative w-full lg:w-96 flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -87,6 +85,14 @@ const SearchSection = ({
               value={searchQuery}
               onChange={handleSearchChange}
             />
+            {/* Botón para abrir el Drawer en pantallas pequeñas */}
+            <button
+              onClick={() => setIsDrawerOpen(true)}
+              className="lg:hidden p-2 text-zinc-400 hover:text-white transition-colors"
+              aria-label="Abrir filtros"
+            >
+              <Filter className="w-5 h-5 text-orange-500" />
+            </button>
           </div>
           <div className="text-zinc-400">
             <span className="font-semibold text-white">{resultCount}</span>{" "}
@@ -97,5 +103,4 @@ const SearchSection = ({
     </div>
   );
 };
-
 export default SearchSection;

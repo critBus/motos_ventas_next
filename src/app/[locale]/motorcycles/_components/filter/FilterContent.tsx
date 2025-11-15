@@ -115,6 +115,10 @@ FilterContentProps) => {
     // Actualizar el estado de precios cuando los parámetros cambien
     setMinPrice(activeParams.min_price?.toString() || "");
     setMaxPrice(activeParams.max_price?.toString() || "");
+    setBrand(activeParams.brand ?? "");
+    setCondition(activeParams.condition ?? "");
+    setFuelType(activeParams.fuel_type ?? "");
+    setSortBy(activeParams.ordering ?? "-published_at");
   }, [activeParams]);
 
   const handleBrandClick = (brand: string) => {

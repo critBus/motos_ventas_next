@@ -182,6 +182,8 @@ export default function MotorcyclesPage() {
       <SearchSection
         activeParams={activeParams}
         onFilterChange={handleFilterChange}
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
       />
 
       {/* Sección 2: Navegación por Tags/Categorías (ej: Marcas) */}
