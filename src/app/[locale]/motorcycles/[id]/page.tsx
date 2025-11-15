@@ -7,8 +7,9 @@ import { notFound } from "next/navigation";
 
 // 3. El tipo de datos
 import { Motorcycle } from "@/types/motorcycles.types";
-import { getMotorcycleById } from "@/service/api/motorcycles";
+
 import DetailsMotorcyle from "./_components/DetailsMotorcyle";
+import ApiService from "@/service/ApiService";
 
 // --- Definición de Tipos ---
 
@@ -28,13 +29,13 @@ interface MotorcycleDetailsPageProps {
 const MotorcycleDetailsPage = async ({
   params,
 }: MotorcycleDetailsPageProps) => {
-  const { id } = params;
+  const { id } = await params;
   let motorcycle: Motorcycle;
 
   try {
     // 2. Llamamos a la API para obtener los datos de la moto
     //    usando el ID de la URL.
-    motorcycle = await getMotorcycleById(id);
+    motorcycle = await ApiService.motorcycles.byId(id);
   } catch (error) {
     // 3. Si la API falla (ej. devuelve 404),
     //    le decimos a Next.js que muestre su página de 404.

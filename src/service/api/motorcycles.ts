@@ -44,7 +44,7 @@ const buildQueryString = (params: GetMotorcyclesParams): string => {
  * @param params Parámetros de filtro, ordenamiento, búsqueda y paginación.
  * @returns Una promesa que resuelve a la lista paginada de motocicletas.
  */
-export const getMotorcycles = async (
+export const all = async (
   params: GetMotorcyclesParams = {}
 ): Promise<MotorcyclesResponse> => {
   // 1. Construir la cadena de consulta con todos los filtros y ordenamiento
@@ -66,7 +66,7 @@ export const getMotorcycles = async (
  * @param id El ID (o slug) de la motocicleta.
  * @returns Una promesa que resuelve a los datos de la motocicleta.
  */
-export const getMotorcycleById = async (id: string): Promise<Motorcycle> => {
+export const byId = async (id: string): Promise<Motorcycle> => {
   // La URL estándar de DRF para detalle es /api/recurso/<id>/
   const url = `${MOTORCYCLES_API_URL}${id}/`;
 
