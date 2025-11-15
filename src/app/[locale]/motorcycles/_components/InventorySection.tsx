@@ -92,6 +92,8 @@ interface InventorySectionProps {
   onPageChange: (page: number) => void;
   onSortChange: (ordering: string) => void;
   onFilterChange: (newFilters: Partial<GetMotorcyclesParams>) => void;
+  isDrawerOpen: boolean;
+  setIsDrawerOpen: (drawerOpen: boolean) => void;
 }
 
 const InventorySection = ({
@@ -103,6 +105,8 @@ const InventorySection = ({
   onPageChange,
   onSortChange,
   onFilterChange,
+  isDrawerOpen,
+  setIsDrawerOpen,
 }: InventorySectionProps) => {
   const t = useTranslations("Motorcycles.InventorySection");
   const pageSize = 10; //meta.pageSize
@@ -110,7 +114,6 @@ const InventorySection = ({
     pageSize && meta.count ? Math.ceil(meta.count / pageSize) : 1
   );
   const [currentPage, setCurrentPage] = useState(activeParams.page || 1);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false); // Estado para el Drawer
 
   useEffect(() => {
     setTotalPages(

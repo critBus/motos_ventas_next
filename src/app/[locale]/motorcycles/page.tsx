@@ -174,6 +174,8 @@ export default function MotorcyclesPage() {
   // Parámetros activos actuales para pasar a los componentes de UI
   const activeParams = searchParamsToParams(searchParams);
 
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false); // Estado para el Drawer
+
   return (
     <div>
       {/* Sección 1: Búsqueda y Filtros Principales */}
@@ -195,6 +197,8 @@ export default function MotorcyclesPage() {
         onPageChange={(page) => handleFilterChange({ page })} // Implementación de paginación
         onSortChange={(ordering) => handleFilterChange({ ordering, page: 1 })} // Implementación de ordenamiento
         onFilterChange={handleFilterChange}
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
       />
 
       {/* Muestra la cadena de consulta activa para debug */}
