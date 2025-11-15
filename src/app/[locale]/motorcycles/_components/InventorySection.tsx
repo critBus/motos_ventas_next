@@ -155,17 +155,6 @@ const InventorySection = ({
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Botón de Filtros para Móviles */}
-      <div className="flex items-center justify-between mb-6 lg:hidden">
-        <button
-          onClick={() => setIsDrawerOpen(true)}
-          className="inline-flex items-center gap-2 p-2 bg-zinc-800 text-white rounded-md hover:bg-zinc-700 transition-colors"
-        >
-          <Filter className="w-5 h-5 text-orange-500" />
-          <span className="font-semibold">{t("filters")} & Ordenar</span>
-        </button>
-      </div>
-
       {/* Drawer de Filtros (Solo visible en móviles) */}
       <Drawer
         isOpen={isDrawerOpen}
