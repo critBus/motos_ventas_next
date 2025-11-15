@@ -1,13 +1,38 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+// Asegúrate de que la ruta de importación sea correcta para tu proyecto
+import { Motorcycle } from "@/types/motorcycles.types";
 
-const DetailsMotorcyle = () => {
-  // Si la moto no tiene imágenes, usamos una imagen por defecto
-  const imageUrl = "/images/motorcycle-hero-girada.jpg";
+// --- Helper para formatear el precio ---
+// Asume que un string como "14.500" significa 14,500 USD.
+const formatPrice = (priceStr: string) => {
+  // Elimina los puntos (separadores de miles) y reemplaza la coma decimal por un punto
+  const cleanedPrice = priceStr.replace(/\./g, "").replace(",", ".");
+  const price = parseFloat(cleanedPrice);
+
+  if (isNaN(price) || price < 0) {
+    return "Contact for Price";
+  }
+
+  // Formatea como moneda USD
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    // No muestra decimales si es un número entero (ej: $14,500)
+    maximumFractionDigits: price % 1 === 0 ? 0 : 2,
+  }).format(price);
+};
+// ----------------------------------------
+
+const DetailsMotorcyle = ({ motorcycle }: { motorcycle: Motorcycle }) => {
+  // Usa la primera imagen de la moto, o la de fallback
+  const imageUrl =
+    motorcycle.images?.[0]?.image || "/images/motorcycle-hero-girada.jpg";
 
   return (
     <div className="min-h-screen bg-zinc-950">
+      {/* --- Barra de Navegación (Volver) --- */}
       <div className="bg-zinc-900 border-b border-zinc-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <Link href="/motorcycles" data-discover="true">
@@ -32,40 +57,52 @@ const DetailsMotorcyle = () => {
           </Link>
         </div>
       </div>
+
+      {/* --- Contenido Principal --- */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* --- Imagen de Cabecera --- */}
         <div className="relative mb-8 rounded-xl overflow-hidden bg-zinc-900">
           <div className="relative h-96 md:h-[600px]">
             <Image
               src={imageUrl}
-              alt="Triumph Street Triple RS"
+              alt={motorcycle.name} // Dinámico
               className="w-full h-full object-cover"
               fill
+              priority // Buena idea para la imagen LCP
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
           </div>
         </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* --- Columna Izquierda (Detalles) --- */}
           <div className="lg:col-span-2 space-y-6">
+            {/* --- Título y Etiquetas --- */}
             <div>
               <div className="flex flex-wrap items-center gap-3 mb-4">
                 <div className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent shadow hover:bg-primary/80 bg-gradient-to-r from-orange-500 to-red-600 text-white capitalize">
-                  used
+                  {motorcycle.condition} {/* Dinámico */}
                 </div>
                 <div className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-zinc-800 text-white capitalize">
-                  naked
+                  {motorcycle.vehicle_type} {/* Dinámico */}
                 </div>
               </div>
               <h1 className="text-4xl md:text-5xl font-black text-white mb-2">
-                Triumph Street Triple RS
+                {motorcycle.name} {/* Dinámico */}
               </h1>
-              <p className="text-zinc-400 text-lg">Color: Matt Storm Grey</p>
+              <p className="text-zinc-400 text-lg">
+                Color: {motorcycle.color} {/* Dinámico */}
+              </p>
             </div>
+
+            {/* --- Especificaciones --- */}
             <div className="rounded-xl border text-card-foreground shadow bg-zinc-900 border-zinc-800">
               <div className="p-6">
                 <h2 className="text-2xl font-bold text-white mb-6">
                   Specifications
                 </h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                  {/* Año */}
                   <div>
                     <div className="flex items-center gap-2 text-zinc-500 mb-2">
                       <svg
@@ -87,8 +124,11 @@ const DetailsMotorcyle = () => {
                       </svg>
                       <span className="text-sm uppercase">Year</span>
                     </div>
-                    <p className="text-xl font-bold text-white">2023</p>
+                    <p className="text-xl font-bold text-white">
+                      {motorcycle.year} {/* Dinámico */}
+                    </p>
                   </div>
+                  {/* Motor */}
                   <div>
                     <div className="flex items-center gap-2 text-zinc-500 mb-2">
                       <svg
@@ -108,8 +148,11 @@ const DetailsMotorcyle = () => {
                       </svg>
                       <span className="text-sm uppercase">Engine</span>
                     </div>
-                    <p className="text-xl font-bold text-white">765cc</p>
+                    <p className="text-xl font-bold text-white">
+                      {motorcycle.engine_displacement_cc}cc {/* Dinámico */}
+                    </p>
                   </div>
+                  {/* Potencia */}
                   <div>
                     <div className="flex items-center gap-2 text-zinc-500 mb-2">
                       <svg
@@ -128,8 +171,11 @@ const DetailsMotorcyle = () => {
                       </svg>
                       <span className="text-sm uppercase">Horsepower</span>
                     </div>
-                    <p className="text-xl font-bold text-white">123 HP</p>
+                    <p className="text-xl font-bold text-white">
+                      {motorcycle.motor_power_hp} HP {/* Dinámico */}
+                    </p>
                   </div>
+                  {/* Kilometraje */}
                   <div>
                     <div className="flex items-center gap-2 text-zinc-500 mb-2">
                       <svg
@@ -149,122 +195,42 @@ const DetailsMotorcyle = () => {
                       </svg>
                       <span className="text-sm uppercase">Mileage</span>
                     </div>
-                    <p className="text-xl font-bold text-white">3200 mi</p>
+                    <p className="text-xl font-bold text-white">
+                      {motorcycle.mileage_km} km {/* Dinámico (y unidad) */}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* --- Descripción --- */}
             <div className="rounded-xl border text-card-foreground shadow bg-zinc-900 border-zinc-800">
               <div className="p-6">
                 <h2 className="text-2xl font-bold text-white mb-4">
                   Description
                 </h2>
                 <p className="text-zinc-400 leading-relaxed whitespace-pre-line">
-                  An aggressive naked sportbike with exceptional handling.
-                  Perfect balance of performance and practicality for both
-                  street and track.
+                  {motorcycle.description} {/* Dinámico */}
                 </p>
               </div>
             </div>
-            <div className="rounded-xl border text-card-foreground shadow bg-zinc-900 border-zinc-800">
-              <div className="p-6">
-                <h2 className="text-2xl font-bold text-white mb-4">Features</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div className="flex items-center gap-2 text-zinc-300">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-check w-5 h-5 text-orange-500 flex-shrink-0"
-                    >
-                      <path d="M20 6 9 17l-5-5"></path>
-                    </svg>
-                    <span>Öhlins Suspension</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-zinc-300">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-check w-5 h-5 text-orange-500 flex-shrink-0"
-                    >
-                      <path d="M20 6 9 17l-5-5"></path>
-                    </svg>
-                    <span>Brembo Brakes</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-zinc-300">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-check w-5 h-5 text-orange-500 flex-shrink-0"
-                    >
-                      <path d="M20 6 9 17l-5-5"></path>
-                    </svg>
-                    <span>Cornering ABS</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-zinc-300">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-check w-5 h-5 text-orange-500 flex-shrink-0"
-                    >
-                      <path d="M20 6 9 17l-5-5"></path>
-                    </svg>
-                    <span>Quick Shifter</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-zinc-300">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-check w-5 h-5 text-orange-500 flex-shrink-0"
-                    >
-                      <path d="M20 6 9 17l-5-5"></path>
-                    </svg>
-                    <span>TFT Display</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+
+            {/* Sección "Features" eliminada.
+              La interfaz Motorcycle no tiene un campo para 'features' (Öhlins, Brembo, etc.).
+              Si añades este campo a tu 'Motorcycle' type, puedes volver a añadir
+              esta sección y mapear sobre ese array.
+            */}
           </div>
+
+          {/* --- Columna Derecha (Precio y CTA) --- */}
           <div className="space-y-6">
             <div className="rounded-xl border text-card-foreground shadow bg-gradient-to-br from-zinc-900 to-zinc-800 border-zinc-700 sticky top-24">
               <div className="p-6">
                 <div className="mb-6">
                   <p className="text-zinc-400 text-sm uppercase mb-2">Price</p>
-                  <p className="text-4xl font-black text-white">$14.500</p>
+                  <p className="text-4xl font-black text-white">
+                    {formatPrice(motorcycle.price)} {/* Dinámico */}
+                  </p>
                 </div>
                 <div className="space-y-3">
                   <Link className="block" href="/contact" data-discover="true">
@@ -279,9 +245,16 @@ const DetailsMotorcyle = () => {
                 <div className="mt-6 pt-6 border-t border-zinc-700">
                   <div className="flex items-center justify-between text-sm mb-3">
                     <span className="text-zinc-400">Availability</span>
-                    <div className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent text-primary-foreground shadow hover:bg-primary/80 bg-green-600">
-                      Available
-                    </div>
+                    {/* --- Disponibilidad Dinámica --- */}
+                    {motorcycle.status === "active" ? (
+                      <div className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent text-primary-foreground shadow hover:bg-primary/80 bg-green-600">
+                        Available
+                      </div>
+                    ) : (
+                      <div className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent text-primary-foreground shadow hover:bg-primary/80 bg-red-600">
+                        Not Available
+                      </div>
+                    )}
                   </div>
                   <p className="text-xs text-zinc-500">
                     Contact us today to schedule a viewing or test ride
