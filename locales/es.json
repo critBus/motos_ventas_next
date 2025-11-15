@@ -109,5 +109,23 @@
         "price_instructions": "Ingrese el precio en USD sin comas ni caracteres especiales"
       }
     }
+  },
+  "DetailsMotorcyle": {
+    "contactForPrice": "Consultar precio",
+    "backToMotorcycles": "Volver a Motocicletas",
+    "colorLabel": "Color",
+    "specificationsTitle": "Especificaciones",
+    "specYear": "Año",
+    "specEngine": "Motor",
+    "specHorsepower": "Potencia",
+    "specMileage": "Kilometraje",
+    "descriptionTitle": "Descripción",
+    "priceLabel": "Precio",
+    "contactSellerButton": "Contactar al Vendedor",
+    "testRideButton": "Agendar Prueba de Manejo",
+    "availabilityLabel": "Disponibilidad",
+    "statusAvailable": "Disponible",
+    "statusNotAvailable": "No Disponible",
+    "contactHint": "Contáctanos hoy para agendar una visita o prueba de manejo"
   }
 }

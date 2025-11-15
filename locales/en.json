@@ -109,5 +109,23 @@
         "price_instructions": "Enter price in USD without commas or special characters"
       }
     }
+  },
+  "DetailsMotorcyle": {
+    "contactForPrice": "Contact for Price",
+    "backToMotorcycles": "Back to Motorcycles",
+    "colorLabel": "Color",
+    "specificationsTitle": "Specifications",
+    "specYear": "Year",
+    "specEngine": "Engine",
+    "specHorsepower": "Horsepower",
+    "specMileage": "Mileage",
+    "descriptionTitle": "Description",
+    "priceLabel": "Price",
+    "contactSellerButton": "Contact Seller",
+    "testRideButton": "Schedule Test Ride",
+    "availabilityLabel": "Availability",
+    "statusAvailable": "Available",
+    "statusNotAvailable": "Not Available",
+    "contactHint": "Contact us today to schedule a viewing or test ride"
   }
 }

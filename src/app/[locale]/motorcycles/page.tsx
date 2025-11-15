@@ -11,10 +11,11 @@ import {
   Motorcycle,
   MotorcyclesResponse,
 } from "@/types/motorcycles.types";
-import { getMotorcycles } from "@/service/api/motorcycles";
+
 import SearchSection from "./_components/SearchSection";
 import TagBrowseMotorcyclesSection from "./_components/TagBrowseMotorcyclesSection";
 import InventorySection from "./_components/InventorySection";
+import ApiService from "@/service/ApiService";
 
 // --- Funciones Auxiliares de Sincronización de URL ---
 
@@ -151,7 +152,8 @@ export default function MotorcyclesPage() {
       ...currentQueryParams,
     };
 
-    getMotorcycles(apiParams)
+    ApiService.motorcycles
+      .all(apiParams)
       .then((data) => {
         setMotorcycles(data.results);
         setMeta({
