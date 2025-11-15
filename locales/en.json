@@ -99,7 +99,15 @@
       "mileage_low_to_high": "Kilometraje: Menor a Mayor",
       "name_a_z": "Nombre: A-Z",
       "not_match": "No motorcycles were found that match your filters.",
-      "pageIndicator": "Page {currentPage} of {totalPages}"
+      "pageIndicator": "Page {currentPage} of {totalPages}",
+      "price_range": {
+        "price_range": "Price Range",
+        "min_price": "Min Price",
+        "max_price": "Max Price",
+        "apply": "Apply",
+        "clear": "Clear",
+        "price_instructions": "Enter price in USD without commas or special characters"
+      }
     }
   }
 }
