@@ -21,7 +21,7 @@ export default function MotorcycleCard({ motorcycle }: MotorcycleCardProps) {
 
   return (
     <Link
-      href={`/bikedetails?id=${motorcycle.id}`}
+      href={`/motorcycles/${motorcycle.id}`}
       data-discover="true"
       className="block"
     >
