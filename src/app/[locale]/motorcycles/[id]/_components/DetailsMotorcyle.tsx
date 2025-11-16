@@ -147,8 +147,10 @@ const DetailsMotorcyle = ({ motorcycle }: { motorcycle: Motorcycle }) => {
           <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50">
             <div className="relative w-full max-w-4xl h-[80vh] p-4">
               <button
-                onClick={() => setShowModal(false)}
-                className="absolute top-2 right-2 text-white bg-zinc-800 rounded-full p-2 hover:bg-zinc-700"
+                onClick={() => {
+                  setShowModal(false);
+                }}
+                className="z-10 absolute top-2 right-2 text-white bg-zinc-800 rounded-full p-2 hover:bg-zinc-700"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -172,7 +174,7 @@ const DetailsMotorcyle = ({ motorcycle }: { motorcycle: Motorcycle }) => {
                     prev > 0 ? prev - 1 : images.length - 1
                   )
                 }
-                className="absolute left-2 top-1/2 transform -translate-y-1/2 text-white bg-zinc-800 rounded-full p-2 hover:bg-zinc-700"
+                className="z-10 absolute left-2 top-1/2 transform -translate-y-1/2 text-white bg-zinc-800 rounded-full p-2 hover:bg-zinc-700"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -201,7 +203,7 @@ const DetailsMotorcyle = ({ motorcycle }: { motorcycle: Motorcycle }) => {
                     prev < images.length - 1 ? prev + 1 : 0
                   )
                 }
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white bg-zinc-800 rounded-full p-2 hover:bg-zinc-700"
+                className="z-10 absolute right-2 top-1/2 transform -translate-y-1/2 text-white bg-zinc-800 rounded-full p-2 hover:bg-zinc-700"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
