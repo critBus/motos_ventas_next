@@ -1,21 +1,26 @@
 "use client";
-import { useState } from "react";
+import { MouseEvent, MouseEventHandler, useState } from "react";
 
 const ImageMagnifier = ({
   src,
   className,
-  width,
-  height,
-  alt,
+
   magnifierHeight = 200,
   magnifierWidth = 200,
   zoomLevel = 2.5,
+}: {
+  src: string;
+  className: string;
+  magnifierHeight?: number;
+  magnifierWidth?: number;
+  zoomLevel?: number;
 }) => {
   const [showMagnifier, setShowMagnifier] = useState(false);
   const [[imgWidth, imgHeight], setSize] = useState([0, 0]);
   const [[x, y], setXY] = useState([0, 0]);
 
-  const mouseEnter = (e) => {
+  const mouseEnter = (e: MouseEvent) => {
+    if (!e) return;
     const el = e.currentTarget;
 
     const { width, height } = el.getBoundingClientRect();
@@ -23,12 +28,12 @@ const ImageMagnifier = ({
     setShowMagnifier(true);
   };
 
-  const mouseLeave = (e) => {
+  const mouseLeave = (e: MouseEvent) => {
     e.preventDefault();
     setShowMagnifier(false);
   };
 
-  const mouseMove = (e) => {
+  const mouseMove = (e: MouseEvent) => {
     const el = e.currentTarget;
     const { top, left } = el.getBoundingClientRect();
 
@@ -43,9 +48,6 @@ const ImageMagnifier = ({
       <img
         src={src}
         className={className}
-        width={width}
-        height={height}
-        alt={alt}
         onMouseEnter={(e) => mouseEnter(e)}
         onMouseLeave={(e) => mouseLeave(e)}
         onMouseMove={(e) => mouseMove(e)}

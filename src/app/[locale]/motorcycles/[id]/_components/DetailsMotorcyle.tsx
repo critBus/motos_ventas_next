@@ -134,17 +134,9 @@ const DetailsMotorcyle = ({ motorcycle }: { motorcycle: Motorcycle }) => {
             {/* Imagen Principal con Lupa */}
             <div className="flex-1 relative min-h-[300px] md:min-h-[600px] order-1 md:order-2 rounded-md overflow-hidden">
               <ImageMagnifier
-                fill
-                ref={imageRef}
                 src={selectedImage}
-                alt={motorcycle.name}
+                // alt={motorcycle.name}
                 className="w-full h-full object-cover"
-                onLoad={(e) =>
-                  setLargeImageDimensions({
-                    width: e.currentTarget.naturalWidth,
-                    height: e.currentTarget.naturalHeight,
-                  })
-                }
               />
             </div>
           </div>
