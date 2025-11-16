@@ -7,6 +7,7 @@ import { useLocale, useTranslations } from "next-intl";
 // ------------------------------------
 // Asegúrate de que la ruta de importación sea correcta para tu proyecto
 import { Motorcycle } from "@/types/motorcycles.types";
+import ImageMagnifier from "@/components/shared/ImageMagnifier";
 
 const DetailsMotorcyle = ({ motorcycle }: { motorcycle: Motorcycle }) => {
   // --- Hooks de next-intl ---
@@ -48,57 +49,10 @@ const DetailsMotorcyle = ({ motorcycle }: { motorcycle: Motorcycle }) => {
   const [modalIndex, setModalIndex] = useState(0);
 
   // Estados para la lupa
-  const [showLens, setShowLens] = useState(false);
-  const [lensPosition, setLensPosition] = useState({ x: 0, y: 0 });
-  const [bgPosition, setBgPosition] = useState({ x: 0, y: 0 });
+
   const imageRef = React.useRef<HTMLImageElement>(null);
   const zoomFactor = 2;
   const lensSize = 150;
-
-  // Función para actualizar la posición de la lupa
-  const updateLens = (
-    x: number,
-    y: number,
-    imgWidth: number,
-    imgHeight: number
-  ) => {
-    let lensX = x - lensSize / 2;
-    let lensY = y - lensSize / 2;
-
-    lensX = Math.max(0, Math.min(lensX, imgWidth - lensSize));
-    lensY = Math.max(0, Math.min(lensY, imgHeight - lensSize));
-
-    setLensPosition({ x: lensX, y: lensY });
-    setBgPosition({ x: -lensX * zoomFactor, y: -lensY * zoomFactor });
-  };
-
-  // Handlers para mouse
-  const handleMouseEnter = () => setShowLens(true);
-  const handleMouseLeave = () => setShowLens(false);
-  const handleMouseMove = (e: React.MouseEvent<HTMLImageElement>) => {
-    if (!imageRef.current) return;
-    const rect = imageRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    updateLens(x, y, rect.width, rect.height);
-  };
-
-  // Handlers para touch (móvil)
-  const handleTouchStart = () => setShowLens(true);
-  const handleTouchEnd = () => setShowLens(false);
-  const handleTouchMove = (e: React.TouchEvent<HTMLImageElement>) => {
-    if (!imageRef.current || e.touches.length === 0) return;
-    const touch = e.touches[0];
-    const rect = imageRef.current.getBoundingClientRect();
-    const x = touch.clientX - rect.left;
-    const y = touch.clientY - rect.top;
-    updateLens(x, y, rect.width, rect.height);
-  };
-
-  // Reset dimensiones al cambiar imagen
-  React.useEffect(() => {
-    setLargeImageDimensions({ width: 0, height: 0 });
-  }, [selectedImage]);
 
   return (
     <div className="min-h-screen bg-zinc-950">
@@ -179,7 +133,7 @@ const DetailsMotorcyle = ({ motorcycle }: { motorcycle: Motorcycle }) => {
 
             {/* Imagen Principal con Lupa */}
             <div className="flex-1 relative min-h-[300px] md:min-h-[600px] order-1 md:order-2 rounded-md overflow-hidden">
-              <Image
+              <ImageMagnifier
                 fill
                 ref={imageRef}
                 src={selectedImage}
@@ -191,32 +145,7 @@ const DetailsMotorcyle = ({ motorcycle }: { motorcycle: Motorcycle }) => {
                     height: e.currentTarget.naturalHeight,
                   })
                 }
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                onMouseMove={handleMouseMove}
-                onTouchStart={handleTouchStart}
-                onTouchEnd={handleTouchEnd}
-                onTouchMove={handleTouchMove}
               />
-              {showLens && largeImageDimensions.width > 0 && (
-                <div
-                  className="absolute pointer-events-none"
-                  style={{
-                    left: `${lensPosition.x}px`,
-                    top: `${lensPosition.y}px`,
-                    width: `${lensSize}px`,
-                    height: `${lensSize}px`,
-                    backgroundImage: `url(${selectedImage})`,
-                    backgroundPosition: `${bgPosition.x}px ${bgPosition.y}px`,
-                    backgroundSize: `${
-                      largeImageDimensions.width * zoomFactor
-                    }px ${largeImageDimensions.height * zoomFactor}px`,
-                    border: "2px solid white",
-                    borderRadius: "50%",
-                    overflow: "hidden",
-                  }}
-                />
-              )}
             </div>
           </div>
         </div>
